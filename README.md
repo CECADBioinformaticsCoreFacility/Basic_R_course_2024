@@ -1,3 +1,5 @@
+(!!! NOT MATURE YET WORKING TEMPLATE)
+
 # R Programming Course for Biologists
 
 Welcome to our R Programming Course specifically designed for biologists, including master and PhD students. This course aims to equip participants with basic R programming skills and introduce them to statistical analysis techniques applicable in molecular biology. No prior programming or statistical knowledge is required.
