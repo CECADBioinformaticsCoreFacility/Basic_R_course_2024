@@ -18,6 +18,26 @@ Installation guides:
 - [RStudio Installation Guide](https://www.rstudio.com/products/rstudio/download/)
 - [Git Installation Guide](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
+## Important Installation Notice
+
+It's crucial for all participants to install R, RStudio, and Git prior to the start of the course. These tools are essential for participating in the course exercises and for following along with the instruction.
+
+### Pre-Course Zoom Session
+
+Considering the importance of a smooth start to our course, we're planning to host a Zoom pre-course session. This session is intended to help with the installation process, address any issues you might encounter, and answer any questions. Stay tuned for the schedule and details.
+
+### Trouble Installing?
+
+If you encounter any issues during the installation process, please:
+- Refer to the FAQs and troubleshooting guides provided on the respective software download pages.
+- Post your issue on the GitHub issues section of this repository. Please provide as much detail as possible about the problem you're experiencing.
+- Contact us directly via email, and we'll do our best to assist you.
+
+### Practice Before the Course
+
+We strongly recommend that you try to familiarize yourself with R and RStudio by following some basic tutorials or trying out simple exercises. This will help you hit the ground running when the course starts.
+
+
 ## Course Content
 
 ### Day 1: Introduction to R and Basic Programming Concepts
