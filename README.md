@@ -95,7 +95,7 @@ We welcome contributions to improve the course materials. Please feel free to fo
 
 ## Contact
 
-For any queries regarding the course, please reach out to us at [cecad-bioinformatics@uni-koeln.de].
+For any queries regarding the course, please reach out to us at [!!! Course mailing list !!!].
 
 ## Acknowledgements
 
