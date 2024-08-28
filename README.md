@@ -1,5 +1,3 @@
-(!!! NOT MATURE YET WORKING TEMPLATE)
-
 # R Programming Course for Biologists
 
 Welcome to our R Programming Course specifically designed for biologists, including master and PhD students. This course aims to equip participants with basic R programming skills and introduce them to statistical analysis techniques applicable in molecular biology. No prior programming or statistical knowledge is required.
@@ -50,7 +48,7 @@ We strongly recommend that you try to familiarize yourself with R and RStudio by
 
 #### Session 2: Data Entry and Data Management
 - Data Import and Export
-- Data Manipulation with `dplyr`
+- Data Manipulation (also with `dplyr`)
 
 #### Session 3: Creating Graphics
 - Introduction to Base Graphics in R
@@ -61,7 +59,7 @@ We strongly recommend that you try to familiarize yourself with R and RStudio by
 ### Day 2: Statistical Analysis in R
 
 #### Session 1: Inferential Statistics - Part 1
-- Fisher’s Exact Test, McNemar Test, T-tests
+- Fisher’s Exact Test, T-tests
 
 #### Session 2: Inferential Statistics - Part 2
 - Multiple Linear Regression, ANOVA
@@ -95,7 +93,7 @@ We welcome contributions to improve the course materials. Please feel free to fo
 
 ## Contact
 
-For any queries regarding the course, please reach out to us at [!!! Course mailing list !!!].
+For any queries regarding the course, please reach out to us at cecad-bifacility-course@uni-koeln.de
 
 ## Acknowledgements
 
