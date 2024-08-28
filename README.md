@@ -48,10 +48,10 @@ We strongly recommend that you try to familiarize yourself with R and RStudio by
 
 #### Session 2: Data Entry and Data Management
 - Data Import and Export
-- Data Manipulation (also with `dplyr`)
+- Data Manipulation (base R and `dplyr`)
 
 #### Session 3: Creating Graphics
-- Introduction to Base Graphics in R
+- Introduction to Base Graphics in R (base R and `ggplot2`)
 
 #### Session 4: Descriptive Statistics
 - Frequency/Cross Tables, Mean, Standard Deviation, Correlation
@@ -59,7 +59,7 @@ We strongly recommend that you try to familiarize yourself with R and RStudio by
 ### Day 2: Statistical Analysis in R
 
 #### Session 1: Inferential Statistics - Part 1
-- Fisher’s Exact Test, T-tests
+- Fisher’s Exact Test, T-tests.
 
 #### Session 2: Inferential Statistics - Part 2
 - Multiple Linear Regression, ANOVA
