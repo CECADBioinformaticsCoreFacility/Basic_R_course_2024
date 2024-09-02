@@ -12,6 +12,17 @@ Participants are expected to have the following installed on their computers bef
 - R
 - RStudio
 - Git
+- Installing the following R-libraries:
+  - ggplot2
+  - dplyr
+  - DESeq2
+  - gprofiler2
+  - clusterprofiler
+  - imager
+  - magick
+  - tibble
+  - MASS
+  - tidyr
 
 Installation guides:
 - [R Installation Guide](https://cran.r-project.org/)
