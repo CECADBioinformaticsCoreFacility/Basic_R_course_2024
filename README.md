@@ -23,6 +23,7 @@ Participants are expected to have the following installed on their computers bef
   - [tibble](https://cran.r-project.org/web/packages/tibble/index.html)
   - [MASS](https://cran.r-project.org/web/packages/MASS/index.html)
   - [tidyr](https://cran.r-project.org/web/packages/tidyr/index.html)
+  - [stringr](https://stringr.tidyverse.org/)
 
 Installation guides:
 - [R Installation Guide](https://cran.r-project.org/)
