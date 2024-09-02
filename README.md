@@ -30,6 +30,8 @@ Installation guides:
 - [RStudio Installation Guide](https://www.rstudio.com/products/rstudio/download/)
 - [Git Installation Guide](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
+Participants are also expected to have a GitHub account.
+
 ## Important Installation Notice
 
 It's crucial for all participants to install R, RStudio, and Git prior to the start of the course. These tools are essential for participating in the course exercises and for following along with the instruction.
