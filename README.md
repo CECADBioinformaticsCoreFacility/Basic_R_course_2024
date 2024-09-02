@@ -13,16 +13,16 @@ Participants are expected to have the following installed on their computers bef
 - RStudio
 - Git
 - Installing the following R-libraries:
- - [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html)
- - [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html)
- - [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html)
- - [gprofiler2](https://cran.r-project.org/web/packages/gprofiler2/index.html)
- - [clusterProfiler](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html)
- - [imager](https://cran.r-project.org/web/packages/imager/index.html)
- - [magick](https://cran.r-project.org/web/packages/magick/index.html)
- - [tibble](https://cran.r-project.org/web/packages/tibble/index.html)
- - [MASS](https://cran.r-project.org/web/packages/MASS/index.html)
- - [tidyr](https://cran.r-project.org/web/packages/tidyr/index.html)
+  - [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html)
+  - [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html)
+  - [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html)
+  - [gprofiler2](https://cran.r-project.org/web/packages/gprofiler2/index.html)
+  - [clusterProfiler](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html)
+  - [imager](https://cran.r-project.org/web/packages/imager/index.html)
+  - [magick](https://cran.r-project.org/web/packages/magick/index.html)
+  - [tibble](https://cran.r-project.org/web/packages/tibble/index.html)
+  - [MASS](https://cran.r-project.org/web/packages/MASS/index.html)
+  - [tidyr](https://cran.r-project.org/web/packages/tidyr/index.html)
 
 Installation guides:
 - [R Installation Guide](https://cran.r-project.org/)
