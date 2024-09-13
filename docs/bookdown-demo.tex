@@ -228,11 +228,159 @@ Sepal.Length & Sepal.Width & Petal.Length & Petal.Width & Species\\
 
 You can write citations, too. For example, we are using the \textbf{bookdown} package \citep{R-bookdown} in this sample book, which was built on top of R Markdown and \textbf{knitr} \citep{xie2015}.
 
-\chapter{Literature}\label{literature}
+\chapter{Day 1}\label{day-1}
 
-Here is a review of existing methods.
+\section{Variables}\label{variables}
 
-\chapter{Methods}\label{methods}
+Variables are containers for storing data values. These are resuable.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myvar }\OtherTok{\textless{}{-}} \DecValTok{5}
+\FunctionTok{print}\NormalTok{(myvar)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myvar }\OtherTok{\textless{}{-}} \StringTok{"Hello, World!"}
+\FunctionTok{print}\NormalTok{(myvar)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Hello, World!"
+\end{verbatim}
+
+You can see the same variable \texttt{myvar} stores the value \texttt{5} and later gets replaced
+by \texttt{Hello,\ World!}
+
+\section{R-objects}\label{r-objects}
+
+Although you can make \texttt{vectors} manually using the \texttt{c()} function, there are also
+some specialised functions for making vectors.
+
+\begin{itemize}
+\tightlist
+\item
+  The \texttt{seq()} function can be used to make up arithmetic series of values.
+\item
+  The \texttt{rep()} function simply repeats a value a specified number of times.
+\item
+  special operator \texttt{:} for creating vectors of sequential integers
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{seq}\NormalTok{(}\AttributeTok{from=}\DecValTok{1}\NormalTok{,}\AttributeTok{to=}\DecValTok{5}\NormalTok{,}\AttributeTok{by=}\FloatTok{0.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{rep}\NormalTok{(}\StringTok{"hello!"}\NormalTok{,}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "hello!" "hello!" "hello!" "hello!" "hello!"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{15}\SpecialCharTok{:}\DecValTok{25}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] 15 16 17 18 19 20 21 22 23 24 25
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{),}\FunctionTok{rep}\NormalTok{(}\StringTok{"hello!"}\NormalTok{,}\DecValTok{3}\NormalTok{),}\FunctionTok{rep}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "1"      "1"      "1"      "hello!" "hello!" "hello!" "3"      "3"     
+## [9] "3"
+\end{verbatim}
+
+\subsection{Accessing Vector Subsets}\label{accessing-vector-subsets}
+
+One can access specific positions in a vector in various ways
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myvec }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{),}\FunctionTok{rep}\NormalTok{(}\StringTok{"hello!"}\NormalTok{,}\DecValTok{3}\NormalTok{),}\FunctionTok{rep}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+
+\NormalTok{myvec[}\DecValTok{4}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "hello!"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myvec[}\DecValTok{4}\SpecialCharTok{:}\DecValTok{7}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "hello!" "hello!" "hello!" "3"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myvec[}\FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{9}\NormalTok{)]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "hello!" "3"
+\end{verbatim}
+
+\subsection{Named Vectors}\label{named-vectors}
+
+In all R data structures you have the option of assigning names to numeric positions so that you can use the
+name to access the data instead of the position.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myobj }\OtherTok{\textless{}{-}} \DecValTok{11}\SpecialCharTok{:}\DecValTok{15}
+\FunctionTok{names}\NormalTok{(myobj) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"pos1"}\NormalTok{,}\StringTok{"pos2"}\NormalTok{,}\StringTok{"pos3"}\NormalTok{,}\StringTok{"pos4"}\NormalTok{,}\StringTok{"pos5"}\NormalTok{)}
+\NormalTok{myobj}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## pos1 pos2 pos3 pos4 pos5 
+##   11   12   13   14   15
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myobj[}\FunctionTok{c}\NormalTok{(}\StringTok{"pos2"}\NormalTok{,}\StringTok{"pos5"}\NormalTok{,}\StringTok{"pos1"}\NormalTok{)]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## pos2 pos5 pos1 
+##   12   15   11
+\end{verbatim}
+
+\chapter{Day 1 Practice}\label{day-1-practice}
 
 We describe our methods in this chapter.
 
@@ -254,7 +402,7 @@ We will approximate standard error to 0.027\footnote{\(p\) is unknown but expect
   SE = \sqrt(\frac{p(1-p)}{n}) \approx \sqrt{\frac{1/3 (1 - 1/3)} {300}} = 0.027
   \]}
 
-\chapter{Applications}\label{applications}
+\chapter{Day 2}\label{day-2}
 
 Some \emph{significant} applications are demonstrated in this chapter.
 
@@ -262,7 +410,7 @@ Some \emph{significant} applications are demonstrated in this chapter.
 
 \section{Example two}\label{example-two}
 
-\chapter{Final Words}\label{final-words}
+\chapter{Day 2 Practice}\label{day-2-practice}
 
 We have finished a nice book.
 
