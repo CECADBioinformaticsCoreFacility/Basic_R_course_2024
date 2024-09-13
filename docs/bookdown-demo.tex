@@ -120,13 +120,13 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
 \hypersetup{
-  pdftitle={A Minimal Book Example},
-  pdfauthor={Yihui Xie},
+  pdftitle={Basic R course : CGA},
+  pdfauthor={CECAD Bioinformatics Core},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
-\title{A Minimal Book Example}
-\author{Yihui Xie}
+\title{Basic R course : CGA}
+\author{CECAD Bioinformatics Core}
 \date{2024-09-13}
 
 \begin{document}
@@ -138,15 +138,19 @@
 }
 \chapter{Prerequisites}\label{prerequisites}
 
-This is a \emph{sample} book written in \textbf{Markdown}. You can use anything that Pandoc's Markdown supports, e.g., a math equation \(a^2 + b^2 = c^2\).
+It is highly recommended to have the following \textbf{R} packages installed on their
+computers before starting the course.
 
-The \textbf{bookdown} package can be installed from CRAN or Github:
+The packages can be installed from \emph{CRAN} or \emph{Github} or \emph{Bioconductor}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{install.packages}\NormalTok{(}\StringTok{"bookdown"}\NormalTok{)}
-\CommentTok{\# or the development version}
-\CommentTok{\# devtools::install\_github("rstudio/bookdown")}
+\FunctionTok{install.packages}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{,}\StringTok{"dplyr"}\NormalTok{,}\StringTok{"gprofiler2"}\NormalTok{,}\StringTok{"imager"}\NormalTok{,}\StringTok{"magick"}\NormalTok{,}\StringTok{"tibble"}\NormalTok{,}\StringTok{"MASS"}\NormalTok{,}\StringTok{"tidyr"}\NormalTok{,}\StringTok{"stringr"}\NormalTok{))}
+
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(}\StringTok{"BiocManager"}\NormalTok{, }\AttributeTok{quietly =} \ConstantTok{TRUE}\NormalTok{))}
+    \FunctionTok{install.packages}\NormalTok{(}\StringTok{"BiocManager"}\NormalTok{)}
+
+\NormalTok{BiocManager}\SpecialCharTok{::}\FunctionTok{install}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"DESeq2"}\NormalTok{,}\StringTok{"clusterProfiler"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
