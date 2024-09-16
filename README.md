@@ -25,6 +25,16 @@ Participants are expected to have the following installed on their computers bef
   - [tidyr](https://cran.r-project.org/web/packages/tidyr/index.html)
   - [stringr](https://stringr.tidyverse.org/)
 
+**Additionally, please install the following libraries as they were added afterwards:** [UPDATE]
+
+  - [car](https://cran.r-project.org/web/packages/car/index.html)
+  - [Rcmdr](https://cran.r-project.org/web/packages/Rcmdr/index.html)
+  - [ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html)
+  - [openxlsx](https://cran.r-project.org/web/packages/openxlsx/index.html)
+
+**To install these additional packages, use the following R command:**
+install.packages(c("car", "Rcmdr", "ggpubr", "openxlsx"))
+
 Installation guides:
 - [R Installation Guide](https://cran.r-project.org/)
 - [RStudio Installation Guide](https://www.rstudio.com/products/rstudio/download/)
