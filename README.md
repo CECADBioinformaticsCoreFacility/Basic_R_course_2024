@@ -30,8 +30,9 @@ Participants are expected to have the following installed on their computers bef
     - [ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html)
     - [openxlsx](https://cran.r-project.org/web/packages/openxlsx/index.html)
   - **To install these additional packages, use the following R command:**
+    ```r
     install.packages(c("car", "Rcmdr", "ggpubr", "openxlsx"))
-
+    ```
 Installation guides:
 - [R Installation Guide](https://cran.r-project.org/)
 - [RStudio Installation Guide](https://www.rstudio.com/products/rstudio/download/)
