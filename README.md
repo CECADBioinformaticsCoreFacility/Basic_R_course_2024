@@ -68,11 +68,11 @@ We strongly recommend that you try to familiarize yourself with R and RStudio by
 - Introduction to R and RStudio
 - Basic R Syntax and Operations
 
-#### Session 2: Data Entry and Data Management
+#### Session 2: Data Entry and Data Management [[Exercise](https://cecadbioinformaticscorefacility.github.io/Basic_R_course_CGA/docs/ReferenceExercise#session-1-2)]
 - Data Import and Export
 - Data Manipulation (base R and `dplyr`)
 
-#### Session 3: Creating Graphics
+#### Session 3: Creating Graphics [[Exercise](https://cecadbioinformaticscorefacility.github.io/Basic_R_course_CGA/docs/ReferenceExercise#session-3)]
 - Introduction to Base Graphics in R (base R and `ggplot2`)
 
 #### Session 4: Descriptive Statistics
