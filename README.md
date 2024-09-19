@@ -27,26 +27,26 @@ Git [Git Installation Guide](https://git-scm.com/book/en/v2/Getting-Started-Inst
 <details>
   <summary>Installing the following R-libraries: </summary>
 
-  - [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html)
-  - [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html)
-  - [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html)
-  - [gprofiler2](https://cran.r-project.org/web/packages/gprofiler2/index.html)
-  - [clusterProfiler](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html)
-  - [imager](https://cran.r-project.org/web/packages/imager/index.html)
-  - [magick](https://cran.r-project.org/web/packages/magick/index.html)
-  - [tibble](https://cran.r-project.org/web/packages/tibble/index.html)
-  - [MASS](https://cran.r-project.org/web/packages/MASS/index.html)
-  - [tidyr](https://cran.r-project.org/web/packages/tidyr/index.html)
-  - [stringr](https://stringr.tidyverse.org/)
-  - **Additionally, please install the following libraries as they were added afterwards:** [UPDATE]
-    - [car](https://cran.r-project.org/web/packages/car/index.html)
-    - [Rcmdr](https://cran.r-project.org/web/packages/Rcmdr/index.html)
-    - [ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html)
-    - [openxlsx](https://cran.r-project.org/web/packages/openxlsx/index.html)
-  - **To install these additional packages, use the following R command:**
-    ```r
-    install.packages(c("car", "Rcmdr", "ggpubr", "openxlsx"))
-    ```
+- [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html)
+- [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html)
+- [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html)
+- [gprofiler2](https://cran.r-project.org/web/packages/gprofiler2/index.html)
+- [clusterProfiler](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html)
+- [imager](https://cran.r-project.org/web/packages/imager/index.html)
+- [magick](https://cran.r-project.org/web/packages/magick/index.html)
+- [tibble](https://cran.r-project.org/web/packages/tibble/index.html)
+- [MASS](https://cran.r-project.org/web/packages/MASS/index.html)
+- [tidyr](https://cran.r-project.org/web/packages/tidyr/index.html)
+- [stringr](https://stringr.tidyverse.org/)
+- **Additionally, please install the following libraries as they were added afterwards:** [UPDATE]
+  - [car](https://cran.r-project.org/web/packages/car/index.html)
+  - [Rcmdr](https://cran.r-project.org/web/packages/Rcmdr/index.html)
+  - [ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html)
+  - [openxlsx](https://cran.r-project.org/web/packages/openxlsx/index.html)
+- **To install these additional packages, use the following R command:**
+```r
+   install.packages(c("car", "Rcmdr", "ggpubr", "openxlsx"))
+```
 </details>
 
 Participants are also expected to have a GitHub account.
