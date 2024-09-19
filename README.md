@@ -44,9 +44,11 @@ Git [Git Installation Guide](https://git-scm.com/book/en/v2/Getting-Started-Inst
   - [ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html)
   - [openxlsx](https://cran.r-project.org/web/packages/openxlsx/index.html)
 - **To install these additional packages, use the following R command:**
+
 ```r
    install.packages(c("car", "Rcmdr", "ggpubr", "openxlsx"))
 ```
+
 </details>
 
 Participants are also expected to have a GitHub account.
