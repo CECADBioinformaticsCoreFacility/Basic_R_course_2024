@@ -9,10 +9,24 @@ This two-day intensive course covers everything from basic programming in R to a
 ### Prerequisites
 
 Participants are expected to have the following installed on their computers before the course begins:
-- R
-- RStudio
-- Git
-- Installing the following R-libraries:
+
+You can find the installation guides once you click on them:
+
+<details>
+  <summary>R</summary>
+R [R Installation Guide](https://cran.r-project.org/)
+</details>
+ <details>
+  <summary>RStudio</summary>
+RStudio [RStudio Installation Guide](https://www.rstudio.com/products/rstudio/download/)
+</details>
+ <details>
+  <summary>Git</summary>
+Git [Git Installation Guide](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+</details>
+<details>
+  <summary>Installing the following R-libraries: </summary>
+
   - [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html)
   - [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html)
   - [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html)
@@ -33,10 +47,7 @@ Participants are expected to have the following installed on their computers bef
     ```r
     install.packages(c("car", "Rcmdr", "ggpubr", "openxlsx"))
     ```
-Installation guides:
-- [R Installation Guide](https://cran.r-project.org/)
-- [RStudio Installation Guide](https://www.rstudio.com/products/rstudio/download/)
-- [Git Installation Guide](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+</details>
 
 Participants are also expected to have a GitHub account.
 
