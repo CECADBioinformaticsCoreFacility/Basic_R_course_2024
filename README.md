@@ -77,7 +77,7 @@ We strongly recommend that you try to familiarize yourself with R and RStudio by
 
 ### Day 1: Introduction to R and Basic Programming Concepts
 
-#### Session 1: Basic Programming in R
+#### Session 1: Basic Programming in R [[Slides](https://cecadbioinformaticscorefacility.github.io/Basic_R_course_CGA/docs/Day1_R-Basics.html#session-1)]
 - Introduction to R and RStudio
 - Basic R Syntax and Operations
 
