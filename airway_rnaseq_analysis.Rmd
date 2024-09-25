@@ -1,0 +1,637 @@
+---
+title: "R-Workshop 2024: RNASeq dataset analysis in R"
+author:
+  - name: "Dr. Ali T. Abdallah"
+    email: "ali.abdallah@uni-koeln.de"
+    affiliation: "CECAD Research Center - Bioinformatics Facility"
+date: "2024-09-22"
+version: "1.0"
+site: bookdown::bookdown_site
+output:
+  rmdformats::readthedown:
+    toc_depth: 3
+---
+
+
+This guide walks you through analyzing an RNASeq dataset using R, with a particular focus on the `airway` dataset, which comes prepackaged with R's `airway` library. We'll cover library setup, dataset preprocessing, differential expression analysis, PCA, and visualization techniques such as volcano plots.
+
+---
+
+# 1. Load Libraries and Datasets
+
+Before starting, we need to load various libraries required for RNASeq data analysis and visualization. If these libraries aren't installed yet, R will automatically install them for you.
+
+## Loading and Installing Required Libraries
+
+In R, libraries (also called "packages") are collections of functions and data that extend the basic functionality of R. Before you start analyzing your RNASeq data, you need to install and load several specialized libraries. These libraries provide tools for handling biological data, visualizing results, and performing statistical analysis.
+
+Let's walk through the process of installing and loading the necessary libraries.
+
+### 1. Checking if Libraries Are Installed and Installing Them if Missing
+
+```{r}
+# Check if the BiocManager package is installed, if not, install it
+if(!requireNamespace("BiocManager", quietly = TRUE)) 
+  install.packages("BiocManager")
+```
+
+**Explanation:**
+- The `requireNamespace()` function checks whether a package is installed. 
+- The `quietly = TRUE` argument suppresses messages during the check.
+- If the package is not installed, the `install.packages()` function installs it. In this case, we are installing `BiocManager`, a tool that helps you install Bioconductor packages, which are commonly used in bioinformatics.
+
+---
+
+```{r}
+# Install DESeq2 if it's not already installed
+if(!requireNamespace("DESeq2", quietly = TRUE)) 
+  BiocManager::install("DESeq2")
+```
+
+**Explanation:**
+- `DESeq2` is a powerful package designed for differential gene expression analysis. It’s often used to analyze RNASeq data to find genes that are upregulated or downregulated between conditions.
+- If the package is not found on your system, the `BiocManager::install()` function installs it from the Bioconductor repository.
+
+---
+
+```{r}
+# Install dplyr if it's not already installed
+if(!requireNamespace("dplyr", quietly = TRUE)) 
+  install.packages("dplyr")
+```
+
+**Explanation:**
+- `dplyr` is a widely-used package for data manipulation. You will use it to clean and manipulate your RNASeq data, such as filtering genes or organizing metadata.
+- This package is part of the tidyverse, a popular set of tools for data science in R.
+
+---
+
+```{r}
+# Install the org.Hs.eg.db package for human gene annotations
+if(!requireNamespace("org.Hs.eg.db", quietly = TRUE)) 
+  BiocManager::install("org.Hs.eg.db")
+```
+
+**Explanation:**
+- `org.Hs.eg.db` provides mappings between Ensembl gene IDs and gene symbols for **Homo sapiens (human)**. You will need this package to convert gene identifiers (often used in RNASeq) to human gene symbols.
+
+---
+
+```{r}
+# Install airway package if not already installed (RNASeq dataset)
+if(!requireNamespace("airway", quietly = TRUE)) 
+  BiocManager::install("airway")
+```
+
+**Explanation:**
+- The `airway` package contains the RNASeq dataset that will be used throughout this tutorial. It includes gene expression data for human airway smooth muscle cells treated with dexamethasone.
+
+---
+
+```{r}
+# Install ggplot2 if it's not already installed
+if(!requireNamespace("ggplot2", quietly = TRUE)) 
+  install.packages("ggplot2")
+```
+
+**Explanation:**
+- `ggplot2` is a powerful and flexible package for data visualization. It will be used to create plots such as PCA (Principal Component Analysis) plots and volcano plots to visualize your RNASeq analysis results.
+
+---
+
+```{r}
+# Install ggrepel for enhanced plotting (avoids label overlap)
+if(!requireNamespace("ggrepel", quietly = TRUE)) 
+  install.packages("ggrepel")
+```
+
+**Explanation:**
+- `ggrepel` enhances `ggplot2` plots by preventing text labels from overlapping. It is especially useful in creating clear and readable plots for labeling significant genes in RNASeq analysis.
+
+---
+
+```{r}
+# Install DT package for interactive tables
+if(!requireNamespace("DT", quietly = TRUE)) 
+  install.packages("DT")
+```
+
+**Explanation:**
+- The `DT` package helps create interactive data tables. You will use it to display the results of your differential expression analysis in a format that allows easy sorting and filtering.
+
+---
+
+### 2. Loading the Installed Libraries
+
+After ensuring that all necessary packages are installed, we need to load them into the current R session. Loading a library makes its functions and data available for use.
+
+```{r message=FALSE, warning=FALSE}
+# Load the libraries
+library(DESeq2)
+library(ggplot2)
+library(dplyr)
+library(org.Hs.eg.db)
+library(airway)
+library(ggrepel)
+library(DT)
+```
+
+**Explanation:**
+- This block loads the installed libraries into your R session. Each `library()` call makes the associated package functions and datasets available for immediate use.
+
+---
+
+### 3. Loading the Dataset
+
+Finally, we load the `airway` dataset, which contains RNASeq data from human airway cells.
+
+```{r}
+# Load the airway dataset
+data(airway)
+```
+
+**Explanation:**
+- The `data()` function loads built-in datasets from R packages. Here, it loads the `airway` dataset from the `airway` package, which we will use for the RNASeq analysis.
+
+## Explanation
+- This code installs the necessary packages if they aren't already available and then loads them for use.
+- The `airway` dataset is a sample RNASeq dataset from the `airway` package. It contains gene expression data for studying airway smooth muscle cells under different conditions.
+
+---
+
+# 2. Preprocess the Dataset
+
+Preprocessing involves preparing the RNASeq dataset for analysis, including organizing the feature (gene) data and metadata. You can either load preprocessed files or generate them from scratch.
+
+```{r}
+RUN <- F  # Set this to TRUE if you want to preprocess the dataset from scratch
+if(RUN){
+  my_airway_dataset <- airway
+  my_airway_dataset <- assay(my_airway_dataset) %>% as.data.frame()
+
+  # Add gene symbols to the dataset
+  my_airway_dataset$gene_symbol <- mapIds(org.Hs.eg.db, keys = rownames(my_airway_dataset), column = "SYMBOL", keytype = "ENSEMBL", multiVals = "first")
+  
+  # Organize feature data (gene symbols and Ensembl gene IDs)
+  my_airway_featureData <- my_airway_dataset %>% tibble::add_column(ensembl_gene_id = rownames(.)) %>%
+    dplyr::select(ensembl_gene_id, gene_symbol)
+
+  # Clean up the dataset, removing unnecessary columns
+  my_airway_dataset <- my_airway_dataset %>% dplyr::select(-gene_symbol)
+
+  # Extract metadata (colData)
+  my_airway_colData <- colData(airway) %>% as.data.frame()
+
+  # Save preprocessed data
+  saveRDS(my_airway_dataset, file="data/my_airway_dataset.rds")
+  saveRDS(my_airway_colData, file="data/my_airway_colData.rds")
+  saveRDS(my_airway_featureData, file="data/my_airway_featureData.rds")
+} else {
+  # Load preprocessed data
+  my_airway_dataset <- readRDS("data/my_airway_dataset.rds")
+  my_airway_colData <- readRDS("data/my_airway_colData.rds")
+  my_airway_featureData <- readRDS("data/my_airway_featureData.rds")
+}
+
+```
+
+
+## Excursus to `SummarizedExperiment`
+
+The class of the airway dataset is:
+```{r}
+class(airway)
+```
+
+In bioinformatics, `SummarizedExperiment` and `RangedSummarizedExperiment` are 
+commonly used data structures for storing genomic data. Both handle assay data 
+(like expression counts) and metadata, but they differ in their handling of 
+genomic coordinates.
+
+---
+
+### SummarizedExperiment
+
+The `SummarizedExperiment` class stores:
+
+- **Assay data** (e.g., gene expression matrix).
+
+- **Row metadata** (e.g., gene names).
+
+- **Column metadata** (e.g., sample information).
+
+However, it does not store genomic ranges (positions on chromosomes).
+
+#### Example:
+
+```{r}
+library(SummarizedExperiment)
+
+# Assay data (gene expression counts)
+assay_data <- matrix(rnorm(100), nrow=10, ncol=10)
+rownames(assay_data) <- paste0("gene", 1:10)
+colnames(assay_data) <- paste0("sample", 1:10)
+
+# Metadata
+row_data <- data.frame(gene_id=rownames(assay_data))
+col_data <- data.frame(condition=c(rep("treated", 5), rep("control", 5)), row.names=colnames(assay_data))
+
+# Create SummarizedExperiment object
+se <- SummarizedExperiment(assays = list(counts = assay_data), rowData = row_data, colData = col_data)
+se
+```
+
+---
+
+### RangedSummarizedExperiment
+
+`RangedSummarizedExperiment` extends `SummarizedExperiment` by including **genomic ranges** (chromosome, start, end, strand) for each gene or region.
+
+#### Example:
+
+```{r}
+library(GenomicRanges)
+library(SummarizedExperiment)
+
+# Genomic ranges (GRanges object)
+gr <- GRanges(seqnames = Rle(c("chr1", "chr1", "chr2", "chr2")),
+              ranges = IRanges(start = c(100, 200, 300, 400), end = c(150, 250, 350, 450)),
+              strand = Rle(strand(c("+", "-", "+", "-"))))
+
+# Assay data
+assay_data <- matrix(rnorm(40), nrow=4, ncol=10)
+rownames(assay_data) <- paste0("gene", 1:4)
+col_data <- data.frame(condition=c(rep("treated", 5), rep("control", 5)), row.names=colnames(assay_data))
+
+# Create RangedSummarizedExperiment object
+rse <- SummarizedExperiment(assays = list(counts = assay_data), rowRanges = gr, colData = col_data)
+rse
+```
+
+---
+
+### Key Differences
+
+| **Feature**                    | **SummarizedExperiment**                           | **RangedSummarizedExperiment**                     |
+|---------------------------------|----------------------------------------------------|----------------------------------------------------|
+| **Assay data**                  | Yes                                                | Yes                                                |
+| **Row data (gene metadata)**    | Yes, but no genomic coordinates                    | Yes, includes genomic coordinates (via `GRanges`)  |
+| **Column data (sample metadata)**| Yes                                                | Yes                                                |
+| **Genomic coordinate handling** | No                                                 | Yes (chromosome, start, end, strand)               |
+
+---
+
+### Subsetting by Genomic Ranges
+
+With `RangedSummarizedExperiment`, you can subset data based on genomic positions. For example, subsetting genes on `chr1`:
+
+```{r}
+# Subset for genes on chr1
+chr1_subset <- rse[rowRanges(rse)$seqnames == "chr1", ]
+chr1_subset
+```
+
+---
+
+Let us have a look into the data structure of the airway dataset:
+```{r}
+str(airway)
+```
+### rowData-function
+The rowData-function returns the feature data of the airway dataset. Its class
+is:
+```{r}
+class(rowData(airway))
+```
+
+DFrame is a class that is used to store the feature data of the airway dataset.
+It is a subclass of DataFrame. The DataFrame class is a subclass of the 
+data.frame class. The DataFrame class is used to store data in a tabular format.
+The additional functionality provided by DFrame compared to data.frame is
+the ability to store metadata. The metadata is stored in the metadata slot of
+the DFrame object. The metadata is a list that can store any type of data.
+The metadata can be used to store additional information about the data stored
+in the DFrame object.
+
+Let us have a look:
+```{r}
+rowData(airway) %>% head()
+```
+
+By using the `str` function you could see the inner world of this DFrame object.
+```{r}
+str(rowData(airway))
+```
+
+As one could see multiple meta-information about the data are present like elementType, elementMetadata, metadata etc. If we compare this to a normal data.frame object
+```{r}
+str(rowData(airway) %>% as.data.frame())
+```
+We could clearly see the difference. The DFrame object has additional slots that
+could be used to store additional type of information.
+
+### colData-function
+The colData-function, called accessor-function, returns the metadata of 
+the airway dataset samples. Its class is also a:
+```{r}
+class(colData(airway))
+```
+
+```{r}
+str(colData(airway))
+```
+
+
+the content is as follows:
+```{r}
+colData(airway)
+```
+
+### metadata-function
+
+returns a list of objects containing metadata related to overall experiment. 
+So it is not directly metadata of the samples as in colData but it adds a 
+context to the experiment dataset. The class of the metadata in our case is: 
+```{r}
+class(metadata(airway)[[1]])
+```
+
+MIAME is an acronym for Minimum Information About a Microarray Experiment. 
+MIAME is conceptually a set of guidelines for the minimum information that should 
+be provided when reporting a microarray experiment. The MIAME guidelines were 
+developed by the Microarray Gene Expression Data (MGED) Society. 
+The MGED Society is an international organization that aims to promote the sharing 
+of microarray data and the development of standards for microarray data.
+
+This framework could be also partially used for RNA-Seq data. The Package Biobase
+procide a class MIAME implementing this framework.
+
+```{r}
+metadata(airway)[[1]]
+```
+
+
+
+
+```{r}
+head(my_airway_featureData) %>% as.data.frame()
+```
+
+
+
+#### Explanation
+- **Feature Data**: You extract gene symbols and associate them with Ensembl gene IDs using `org.Hs.eg.db`. This step is critical for adding biological meaning to the analysis.
+- **Metadata**: The metadata contains information about the experimental conditions (e.g., `dex` treatment) applied to each sample.
+- You can either load preprocessed datasets or preprocess the data on the fly by setting `RUN` to `TRUE`.
+
+---
+
+### Assay-function
+
+Let’s take a quick look at the count data using the assay()-function. It 
+expects a SummarizedExperiment object as input and returns the assay data as
+a matrix.
+
+```{r}
+head(assay(airway))
+```
+
+```{r}
+class(assay(airway))
+```
+
+---
+
+
+### Why Should Biologists Use `SummarizedExperiment` and `RangedSummarizedExperiment`?
+
+As a biologist diving into bioinformatics and RNASeq data analysis, you may often work with large datasets that contain gene expression levels, sample metadata, and genomic coordinates. Managing these different types of data in a consistent and organized way can be challenging. This is where **`SummarizedExperiment`** and **`RangedSummarizedExperiment`** come in.
+
+#### 1. All Your Data in One Place
+
+Both `SummarizedExperiment` and `RangedSummarizedExperiment` are designed to hold **all the information you need for RNASeq and genomic analysis in one object**:
+- **Assay Data**: Your gene expression counts.
+- **Row Metadata**: Information about genes or genomic features (like gene IDs or symbols).
+- **Column Metadata**: Sample information, such as treatment conditions or time points.
+
+By using these classes, you don't have to manage separate files for each type of data. Everything is stored in a single, well-organized object.
+
+#### 2. Easy to Manipulate and Query
+
+These classes allow you to easily access and manipulate the different types of data:
+- You can quickly **filter genes** based on expression levels or metadata.
+- You can **subset samples** based on treatment or experimental conditions.
+- With `RangedSummarizedExperiment`, you can even **subset by genomic coordinates**, allowing you to focus on specific regions of the genome.
+
+For example, suppose you want to analyze only genes located on a particular chromosome or region. `RangedSummarizedExperiment` makes this kind of genomic subsetting straightforward.
+
+#### 3. Seamless Integration with Bioconductor Tools
+
+Both classes are part of the **Bioconductor** ecosystem, which means they integrate smoothly with many tools designed for biological data analysis. For example:
+- The `DESeq2` package for differential expression analysis works directly with these classes.
+- Visualization tools like `ggplot2` can easily handle data from these objects.
+
+This means that by learning these classes, you're preparing yourself to work with a wide range of powerful tools in bioinformatics.
+
+#### 4. Reproducibility and Collaboration
+
+Because these objects store data in a consistent format, it's easy to share your analysis with others:
+- Your collaborators can load the exact same dataset with all the metadata intact.
+- Your workflows become **reproducible**, since everything is stored in one object, minimizing the risk of losing or misplacing parts of the dataset.
+
+#### 5. A Beginner-Friendly Start
+
+Although these classes may sound complex, they are beginner-friendly. Instead of juggling multiple data frames and files, you only need to learn how to work with **one object** that holds all the necessary information. The ability to **access, filter, and modify** the data using simple commands makes it an excellent entry point for biologists starting with R.
+
+---
+
+In summary, `SummarizedExperiment` and `RangedSummarizedExperiment` provide a convenient, organized, and powerful way to manage, analyze, and visualize your biological data in R. They help you focus on the biological questions rather than the data handling, making your research more efficient, reproducible, and scalable.
+
+
+---
+
+## Filter out lowly expressed genes
+```{r}
+# Filter out genes with low expression. In this case we require that the sum
+# exoression values of each gene across all samples is at least 10.
+my_airway_dataset <- airway
+my_airway_dataset <- my_airway_dataset[rowSums(assay(my_airway_dataset)) > 10,]
+```
+
+
+
+# 4. Differential Expression Analysis
+
+The core of RNASeq analysis is identifying genes that are differentially 
+expressed under different conditions. In this section, we will use `DESeq2` for 
+the analysis.
+
+```{r warning=F, message=F}
+# Create a DESeq2 object (DESeqDataSet) from the count matrix and metadata.
+dds <- DESeq2::DESeqDataSet(se = my_airway_dataset,
+                                      design = ~dex)
+
+# Run the DESeq pipeline for differential expression analysis
+dds <- DESeq(dds)
+vsd <- vst(dds, blind = T)
+
+# Extract the results table, which contains log2 fold changes and p-values
+results <- DESeq2::results(dds) %>% as.data.frame()
+
+# Add significance column based on log2FoldChange and adjusted p-value
+results <- results %>% 
+  tibble::add_column(significance = 
+    if_else(.$log2FoldChange > 1 & .$padj < 0.05, "upregulated", 
+    if_else(.$log2FoldChange < -1 & .$padj < 0.05, "downregulated", "not significant")))
+
+# Remove rows with missing values
+results <- na.omit(results)
+
+# Add gene symbols to the results using Ensembl gene IDs
+results <- results %>% tibble::add_column(ensembl_gene_id = rownames(.)) %>%
+  left_join(my_airway_featureData, by = c("ensembl_gene_id"))
+
+# Select relevant columns and arrange by adjusted p-value
+results <- results %>% dplyr::select(ensembl_gene_id,
+                                     gene_symbol,
+                                     baseMean,
+                                     log2FoldChange,
+                                     padj,
+                                     lfcSE,
+                                     stat,
+                                     pvalue,
+                                     significance) %>%
+  arrange(padj)
+
+# Display the results in an interactive table
+DT::datatable(results, 
+              filter = "top",
+              extensions = c('Buttons', 'ColReorder'),
+              options = list(dom = 'Bfrtip',
+                             buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),
+                             colReorder = TRUE))
+```
+
+## Explanation
+- **DESeq2 Object**: We first create a `DESeqDataSet` object that encapsulates the count data, metadata, and experimental design (in this case, the design is `~dex`, indicating the treatment).
+- **Differential Expression**: The `DESeq` function runs the analysis, and we extract results that include fold changes and statistical significance.
+- **Interactive Table**: The `DT` package is used to create an interactive table where users can filter and sort results.
+
+---
+
+# 5. Principal Component Analysis (PCA)
+
+PCA is a useful method for visualizing the global structure of high-dimensional datasets like RNASeq.
+
+```{r message=F}
+# Transpose the data and convert it into a matrix
+data_matrix <- t(assay(vst(dds)))
+
+# Remove columns (features) with zero variance
+data_matrix_no_zero_var <- data_matrix[, apply(data_matrix, 2, var) != 0]
+
+# Perform PCA
+pca <- prcomp(data_matrix_no_zero_var, scale. = TRUE, center = TRUE, retx = TRUE)
+
+# Extract PCA scores and add metadata
+pca_scores <- pca$x %>% as.data.frame() %>% tibble::add_column(dex = colData(dds)$dex)
+
+# Extract PCA loadings (gene contributions)
+pca_loadings <- pca$rotation %>% as.data.frame()
+pca_loadings <- pca_loadings %>% tibble::add_column(ensembl_gene_id = rownames(.)) %>%
+  left_join(my_airway_featureData, by = c("ensembl_gene_id")) %>%
+  dplyr::select(ensembl_gene_id, gene_symbol, 1:8)
+```
+
+## Explanation
+- **Data Preparation**: We transpose the data matrix and remove genes with zero variance to avoid problems in PCA.
+- **PCA**: The `prcomp` function performs PCA on the preprocessed data, and the principal components (PCs) are extracted.
+
+---
+
+# 6. Visualization: PCA Plot
+
+Visualize the first two principal components to observe the grouping of samples.
+
+```{r}
+# Get PCA summary
+sum_pca <- summary(pca)
+importance <- sum_pca$importance %>% as.data.frame()
+
+# Create new sample names in the format dex_REP[1:4]
+my_airway_colData$Sample.New <- paste0(my_airway_colData$dex,"_REP",rep(1:4, each=2))
+
+pca_scores <- pca_scores %>% tibble::add_column(sample=my_airway_colData$Sample.New)
+
+# Plot the PCA results
+ggplot2::ggplot(data=pca_scores, aes(x=PC1, y=PC2, color=dex, label=sample)) + 
+  geom_point(size=3) + 
+  labs(title="PCA of airway dataset",
+       x=paste0("PC1 (", round(100*importance[2,1], 2), "%)"),
+       y=paste0("PC2 (", round(100*importance[2,2], 2), "%)"))+
+  ggrepel::geom_label_repel()
+```
+
+---
+
+# 7. Visualization: Volcano Plot
+
+Volcano plots are a popular method for visualizing fold changes against significance.
+
+## Initial Volcano Plot
+
+```{r}
+vp <- ggplot2::ggplot(data = results, aes(x = log2FoldChange, y = -log10(padj), color = significance)) + 
+  geom_point() + 
+  ggtitle("Volcano plot of the airway dataset") +
+  theme(plot.title = element_text(face = "bold", hjust = .5))
+
+vp
+```
+
+## Adjust the Plot
+
+Center the plot and add cutoff lines.
+
+```{r}
+# Extract the maximal absolute log2 fold change
+max_abs_log2FoldChange <- max(abs(results$log2FoldChange), na.rm = TRUE)
+# Extract the maximal -log10(padj) (lowest adjusted p-value)
+max_neg_log10_padj <- max(-log10(results$padj), na.rm = TRUE)
+
+# Adjust the plot limits
+vp.2 <- vp + xlim(c(-max_abs_log2FoldChange, max_abs_log2FoldChange)) + 
+  ylim(c(0, max_neg_log10_padj))
+
+# Add cutoff lines for log2FoldChange and padj
+vp.3 <- vp.2 + geom_hline(yintercept = -log10(0.05), linetype = "dashed") + 
+  geom_vline(xintercept = -1, linetype = "dashed") + 
+  geom_vline(xintercept = 1, linetype = "dashed")
+
+vp.3
+```
+
+## Customize Colors and Highlight Genes
+
+Highlight the top 20 genes by `padj`.
+
+```{r}
+custom_colors <- c(upregulated = "darkred", downregulated = "blue", `not significant` = "grey")
+
+vp.4 <- vp.3 + scale_color_manual(values = custom_colors)
+
+# Top 20 genes by adjusted p-value
+top_20_genes <- results %>% arrange(padj) %>% head(20)
+
+vp.5 <- vp.4 + 
+  geom_text_repel(data = top_20_genes, aes(label = gene_symbol), 
+                  box.padding = 0.5, point.padding = 0.5, 
+                  segment.color = "grey50", segment.size = 0.5, 
+                  segment.alpha = 0.5, max.overlaps = Inf, size = 3)
+
+vp.5
+```
+
+---
+
+You now have a comprehensive guide to analyzing RNASeq data in R, including preprocessing, differential expression analysis, PCA, and visualizing the results with plots like the PCA and volcano plots.
