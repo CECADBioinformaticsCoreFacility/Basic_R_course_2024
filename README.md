@@ -102,7 +102,7 @@ We strongly recommend that you try to familiarize yourself with R and RStudio by
 #### Session 3: Molecular Biology Applications [[Exercise](https://cecadbioinformaticscorefacility.github.io/Basic_R_course_CGA/docs/PCA_exercises.html)]
 - PCA and Hierarchical Clustering
 
-#### Session 4: Real-World Data Application
+#### Session 4: Real-World Data Application [[Tutorial](https://github.com/CECADBioinformaticsCoreFacility/Basic_R_course_CGA/docs/airway_rnaseq_analysis.html)]
 - Case Study: Gene Expression Data Analysis
 
 ## Getting Started
