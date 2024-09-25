@@ -99,7 +99,7 @@ We strongly recommend that you try to familiarize yourself with R and RStudio by
 #### Session 2: Inferential Statistics - Part 2
 - Multiple Linear Regression, ANOVA
 
-#### Session 3: Molecular Biology Applications
+#### Session 3: Molecular Biology Applications [[Exercise](https://cecadbioinformaticscorefacility.github.io/Basic_R_course_CGA/docs/PCA_exercises.html)]
 - PCA and Hierarchical Clustering
 
 #### Session 4: Real-World Data Application
