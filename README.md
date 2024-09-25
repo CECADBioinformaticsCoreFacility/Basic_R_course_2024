@@ -75,9 +75,9 @@ We strongly recommend that you try to familiarize yourself with R and RStudio by
 
 ## Course Content
 
-### Day 1: Introduction to R and Basic Programming Concepts
+### Day 1: Introduction to R and Basic Programming Concepts [[Slides](https://cecadbioinformaticscorefacility.github.io/Basic_R_course_CGA/docs/Day1_R-Basics.html#session-1)]
 
-#### Session 1: Basic Programming in R [[Slides](https://cecadbioinformaticscorefacility.github.io/Basic_R_course_CGA/docs/Day1_R-Basics.html#session-1)]
+#### Session 1: Basic Programming in R 
 - Introduction to R and RStudio
 - Basic R Syntax and Operations
 
@@ -91,8 +91,8 @@ We strongly recommend that you try to familiarize yourself with R and RStudio by
 #### Session 4: Descriptive Statistics
 - Frequency/Cross Tables, Mean, Standard Deviation, Correlation
 
-### Day 2: Statistical Analysis in R
-
+### Day 2: Statistical Analysis in R [[Slides](https://cecadbioinformaticscorefacility.github.io/Basic_R_course_CGA/docs/Day2_R-Stats.html)]
+ 
 #### Session 1: Inferential Statistics - Part 1
 - Fisher’s Exact Test, T-tests.
 
