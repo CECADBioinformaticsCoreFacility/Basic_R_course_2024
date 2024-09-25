@@ -1,0 +1,2440 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>R-Basics Day 1</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Bioinfomatics Core Facility" />
+    <script src="libs/header-attrs-2.27/header-attrs.js"></script>
+    <link href="libs/panelset-0.3.0/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset-0.3.0/panelset.js"></script>
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <link href="libs/xaringanExtra-extra-styles-0.2.6/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-progressBar-0.0.1/progress-bar.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# R-Basics Day 1
+]
+.author[
+### Bioinfomatics Core Facility
+]
+.institute[
+### CECAD
+]
+.date[
+### 2024/07/15 (updated: 2024-09-25)
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+.panelset {
+   --panel-tab-foreground: grey;
+   --panel-tab-active-foreground: #0051BA;
+   --panel-tab-hover-foreground: #d22;
+   --panel-tab-inactive-opacity: 0.5;
+   --panel-tabs-border-bottom: #ddd;
+   --panel-tab-font-family: Arial;
+}
+
+.footer {
+  color: var(--footer_grey);
+  font-size: 0.5em;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  bottom: 0;
+  border-top: 1px solid var(--cecad_blue);
+  padding: 1rem 64px 1rem 64px;
+}
+
+.remark-inline-code { 
+    font-family: 'Inconsolata', monospace; 
+    color: #515151;
+    //background-color: rgba(217, 5, 2, 0.2);
+    border-radius: 2px; /* Making border radius */
+    width: auto; /* Making auto-sizable width */
+    height: auto; /* Making auto-sizable height */
+    padding: 0px 2px 1px 2px;  /*Making space around letters */
+    color: #818181;
+    color: rgb(249, 38, 114);
+}
+
+&lt;/style&gt;
+
+
+<style>.xe__progress-bar__container {
+  top:0;
+  opacity: 1;
+  position:absolute;
+  right:0;
+  left: 0;
+}
+.xe__progress-bar {
+  height: 0.25em;
+  background-color: #0051BA;
+  width: calc(var(--slide-current) / var(--slide-total) * 100%);
+}
+.remark-visible .xe__progress-bar {
+  animation: xe__progress-bar__wipe 200ms forwards;
+  animation-timing-function: cubic-bezier(.86,0,.07,1);
+}
+@keyframes xe__progress-bar__wipe {
+  0% { width: calc(var(--slide-previous) / var(--slide-total) * 100%); }
+  100% { width: calc(var(--slide-current) / var(--slide-total) * 100%); }
+}</style>
+
+# Slides &amp; Code
+
+.right-column[
+### <svg aria-hidden="true" role="img" viewBox="0 0 496 512" style="height:1em;width:0.97em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg> git repo
+
+[Basic_R_course_CGA](https://github.com/CECADBioinformaticsCoreFacility/Basic_R_course_CGA)
+
+`git clone https://github.com/CECADBioinformaticsCoreFacility/Basic_R_course_CGA.git`
+
+### Slides Directly
+
+[https://cecadbioinformaticscorefacility.github.io/Basic_R_course_CGA/](https://cecadbioinformaticscorefacility.github.io/Basic_R_course_CGA/)
+
+]
+
+.left-column[
+&lt;img src="Day1_R-Basics_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+
+- [*p*] presenter view
+- [*o*] overview
+- [*f*] fullscreen
+- [*h*] help/more
+
+]
+
+???
+
+This is just an example of Notes #DM1
+
+
+class: inverse, center, middle
+
+# Introduction to R and Basic Programming Concepts
+
+
+---
+class: inverse, center, middle
+
+# History of the R Programming  Language
+
+An Overview Inspired by 
+
+https://en.wikipedia.org/wiki/S_(programming_language)
+
+Federico M. Giorgio et al.: The R Language: An Engine for Bioinformatics and Data Science.  Life 2022, 12(5), 648; https://doi.org/10.3390/life12050648 
+
+Timothy L. Staples: Expansion and evolution of the R programming language. Royal Society Open Science 2023 https://doi.org/10.1098/rsos.221550
+  
+  
+Ulrike Göbel
+---
+# The Lifeline of R
+&lt;div style="float:right; margin-left: 40px;"&gt;
+&lt;img src="../images/lifeline.png" width="70%" /&gt;
+&lt;/div&gt;
+
+
+-    R is an offspring of the **S programming language**
+--
+
+    + a pioneer in **making exploratory data analysis easy**
+    
+    + hiding clumsy FORTRAN implementations in simpler functions
+    
+    + easily accessible function documentation
+--
+
+    + interactive **graphics** devices
+
+--
+-   **from 1993 on, R started to branch off** into an independent, free(!) language
+
+---
+# The Lifeline of R
+&lt;div style="float:right; margin-left: 40px;"&gt;
+&lt;img src="../images/lifeline.png" width="70%" /&gt;
+&lt;/div&gt;
+
+
+-   from the **turn of the century** on, R became one of the major languages used in **Bioinformatics**, boosted by the **Bioconductor project**, which is largely R-based
+
+--
+
+-   the second large application domain of current R is **general Big Data analysis**
+
+--
+
+-   from the second decade of the new century on, the **RStudio (now: Posit)** company gained increasing influence on the evolution of the language
+
+---
+# The Lifeline of R
+&lt;div style="float:right; margin-left: 40px;"&gt;
+&lt;img src="../images/lifeline.png" width="70%" /&gt;
+&lt;/div&gt;
+
+
+-   **RStudio** is influential because
+
+--
+
+    + its **Integrated Development Environment (IDE)** is increasingly used by people doing data analysis with R
+
+--
+    + Hadley Wickham, the main developer of the **tidyverse ecosystem of R packages** is located at RStudio/Posit and is heavily pushing the adoption of the **special programming style** which comes with it
+
+---
+# The Lifeline of R
+&lt;div style="float:right; margin-left: 40px;"&gt;
+&lt;img src="../images/lifeline.png" width="70%" /&gt;
+&lt;/div&gt;
+
+
+-   **"Base R" style:** 
+
+    + "base" R functionality comes with R itself,
+without installing any other packages
+
+    + many "base" packages share a traditional style
+--
+
+    + relatively few functions
+  
+    + each function can be tuned by parameters for a range of related tasks
+--
+
+    + main operation = the invocation of individual functions
+--
+
+    + emphasis on **"all R objects are vectors"**
+
+---
+
+# The Lifeline of R
+&lt;div style="float:right; margin-left: 40px;"&gt;
+&lt;img src="../images/lifeline.png" width="70%" /&gt;
+&lt;/div&gt;
+
+
+-   **Tidyverse style**
+
+    + **emphasis on data tables** (2D)
+--
+
+    + many specialized functions
+    + main operation = converting data tables step-wise, by chaining output and input of functions through the **piping operator**
+    
+--
+
+-   Unclear whether the language will separate into **two dialects**,   
+or whether the two approaches will **merge into a new paradigm** with time
+
+---
+# A Biologist's View on the Evolution of R
+&lt;div style="float:right; margin-left: 40px;"&gt;
+&lt;img src="../images/R_evolution.png" width="80%" /&gt;
+&lt;/div&gt;
+
+
+-   Timothy Staples collected **R function names used in GitHub repositories from 2014 to 2021**
+
+-   Functions were classified by provenance
+    + coming with base R
+    + defined in tidyverse packages
+    + other
+--
+
+-   The graph plots the **slope of frequency of usage over time** versus the probability of use at the end of the period of observation.
+
+---
+# A Biologist's View on the Evolution of R
+&lt;div style="float:right; margin-left: 40px;"&gt;
+&lt;img src="../images/R_evolution.png" width="80%" /&gt;
+&lt;/div&gt;
+
+
+-   Trends:
+
+    + Some rare functions may be on the way to extinction (negative slope)
+--
+ 
+    + Many base R functions have slopes around zero (no change in usage)
+    + Many of them are still heavily used at the end of the observation period
+--
+
+    + **A core part of base R is definitely stable!**
+
+---
+# A Biologist's View on the Evolution of R
+&lt;div style="float:right; margin-left: 40px;"&gt;
+&lt;img src="../images/R_evolution.png" width="80%" /&gt;
+&lt;/div&gt;
+
+
+-   However
+
+    + Nearly all tidyverse functions do have a positive slope (usage increases)
+    
+    + Nearly all strongly increasing functions are tidyverse functions
+--
+
+    + **There is definitely a transition going on in the community**
+
+---
+# You Will See Both Styles in the Course
+&lt;img src="../images/fun.png" width="70%" /&gt;
+
+
+---
+
+class: inverse, center, middle
+
+# Session 1: Basic Programming in R
+
+---
+
+# Interacting R
+
+
+.panelset.sideways[
+.panel[.panel-name[R CLI]
+
+![](../images/R_CMD.png)
+]
+
+.panel[.panel-name[R IDE]
+
+- RStudio
+- Jupyter Notebook
+- Visual Studio
+- Eclipse
+- ...
+
+]
+
+.panel[.panel-name[RStudio]
+
+![](../images/rstudio_session_4pane_layout.png)
+
+]
+
+.panel[.panel-name[R Script]
+
+
+
+``` r
+# Load data
+data("iris")
+
+# display data sample
+head(iris)
+
+# get statistics
+summary(iris)
+
+# get plot
+boxplot(Petal.Length ~ Species, data = iris, col=c(1:3))
+```
+
+
+
+``` bash
+# Running the script
+*Rscript boxplot.R
+```
+
+
+]
+.panel[.panel-name[R help]
+
+``` r
+? [function]
+
+help([function])
+
+example([function])
+
+demo([topic])
+
+browseVignettes([package])
+
+search()
+
+data()
+```
+
+]
+]
+
+???
+Page 6
+
+Save script in *.R / *.Rmd / *.qmd 
+
+Rmd file description
+
+Initialize project
+---
+# Variables
+
+.pull-left[
+
+- Variables are containers for storing data values.
+
+- R does not have a command for declaring a variable
+
+- A variable is created the moment you first assign a value to it.
+
+- Assignment operator `&lt;-`/ `=` can be used for assigning a value
+
+
+]
+
+--
+
+.pull-right[
+
+``` r
+# This is a comment
+
+name &lt;- "John"    # This is also a comment
+age &lt;- 40
+name
+```
+
+```
+## [1] "John"
+```
+
+``` r
+name &lt;- "Tom"
+print (name)
+```
+
+```
+## [1] "Tom"
+```
+]
+
+![](../images/cat-inside.gif)&lt;!-- --&gt;
+
+???
+Page 7
+
+'#' Comment and its importance
+
+
+---
+
+# Variable Names
+
+A variable can have a short name (like x and y) or a more descriptive name (age, carname, total_volume). Rules for R variables are:
+
+- A variable name must start with a letter and can be a combination of letters, digits, period(.)
+    and underscore(_). 
+
+--
+
+.pull-left[
+
+``` r
+# Allowed variable names:
+myvar    &lt;- "John"
+my_var   &lt;- "John"
+myVar    &lt;- "John"
+MYVAR    &lt;- "John"
+myvar2   &lt;- "John"
+myvar_2. &lt;- "John"
+*.myvar   &lt;- "John"
+```
+]
+.pull-right[
+
+``` r
+# Not Allowed variable names:
+2myvar  &lt;- "John"  # starts with a number
+.2myvar &lt;- "John"  # starts with a '.' number
+my-var  &lt;- "John"  # special character
+my var  &lt;- "John"  # space
+_my_var &lt;- "John"  # starts with a '_'
+my_var% &lt;- "John"  # special character
+TRUE    &lt;- "John"  # reserved words
+```
+]
+
+???
+Page 8
+
+Variables are case sensitive
+---
+
+class: animated slideInRight fadeOutLeft
+# Data Types
+
+.pull-left[
+
+| Data Type      | Example           |
+|----------------|-------------------|
+| Logical        |  TRUE / FLASE     |
+| Numeric        |  1.3, 5, 4.2      |
+| Integer        |  1L, 0L, 4L       |
+| Complex        |  2+3i             |
+| Character      |  "We are Learning"|
+]
+
+--
+
+.pull-right[
+
+``` r
+x &lt;- 10.5
+
+x &lt;- 1000L
+
+x &lt;- 9i + 3
+
+x &lt;- "R is exciting"
+
+x &lt;- TRUE
+
+# Evaluete data type
+*class(x)
+```
+
+```
+## [1] "logical"
+```
+]
+---
+# R Data Structure
+
+The variables are assigned with R-Objects and the data type of the R-object becomes the data type of the variable. There are many types of R-objects. The frequently used ones are −
+
+.panelset.sideways[
+.panel[.panel-name[Vectors]
+
+
+``` r
+# Create a vector.
+alphabets &lt;- c('a','b',"c","d")
+
+# Print the vector.
+print(alphabets)
+```
+
+```
+## [1] "a" "b" "c" "d"
+```
+]
+.panel[.panel-name[Lists]
+
+``` r
+# Create a list.
+list1 &lt;- list(c(2,5,3),21.3,sin)
+
+# Print the list.
+print(list1)
+```
+
+```
+## [[1]]
+## [1] 2 5 3
+## 
+## [[2]]
+## [1] 21.3
+## 
+## [[3]]
+## function (x)  .Primitive("sin")
+```
+]
+.panel[.panel-name[Factors]
+
+
+``` r
+# Create a vector.
+apple_colors &lt;- c('green','green','yellow','red','red','red','green')
+
+# Create a factor object.
+factor_apple &lt;- factor(apple_colors)
+
+# Print the factor.
+print(factor_apple)
+```
+
+```
+## [1] green  green  yellow red    red    red    green 
+## Levels: green red yellow
+```
+]
+.panel[.panel-name[Matrices]
+
+
+``` r
+# Create a matrix.
+M = matrix( c('a','a','b','c','b','a'), 
+            nrow = 2, 
+            ncol = 3, 
+            byrow = TRUE)
+
+# Print the matrix
+print(M)
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,] "a"  "a"  "b" 
+## [2,] "c"  "b"  "a"
+```
+]
+.panel[.panel-name[Arrays]
+
+
+``` r
+# Create an array.
+a &lt;- array(c('green','yellow'),dim = c(1,3,2))
+
+# Print the array
+print(a)
+```
+
+```
+## , , 1
+## 
+##      [,1]    [,2]     [,3]   
+## [1,] "green" "yellow" "green"
+## 
+## , , 2
+## 
+##      [,1]     [,2]    [,3]    
+## [1,] "yellow" "green" "yellow"
+```
+]
+.panel[.panel-name[Data Frames]
+
+``` r
+# Create the data frame.
+BMI &lt;- 	data.frame(
+   gender = c("Male", "Male","Female"), 
+   height = c(152, 171.5, 165), 
+   weight = c(81,93, 78),
+   Age = c(42,38,26)
+)
+
+# Print the data frame
+print(BMI)
+```
+
+```
+##   gender height weight Age
+## 1   Male  152.0     81  42
+## 2   Male  171.5     93  38
+## 3 Female  165.0     78  26
+```
+]
+]
+
+???
+Page 10
+
+1. What is it?
+2. How to create?
+3. How to access?
+
+- Most Basic R-object is Vector
+
+- Vectors must have their values all of the same mode/type [“atomic” structures ]
+
+- use c() to combine
+
+============
+
+-  list in R can contain many different data types inside it
+
+============
+
+- Factors are used to categorize data
+
+- you cannot change the value of a specific item if it is not already specified in the factor.
+
+matrices or more generally arrays are multi-dimensional generalizations of vectors
+
+---
+# Operators
+
+.panelset[
+.panel[.panel-name[Arithmetic]
+
+| Operator | Name                               | Example     |
+| :---:    | :--------:                         | :---:       |
+|   +      | Addition                           | `x + y`     | 
+|   -      | Subtraction                        | `x - y`     |
+|   *      |	Multiplication                    | 	`x * y`   |
+|   /      |	Division                          |	`x / y`     |
+|   ^      |	Exponent                          | 	`x ^ y`   |
+|   %%     |	Modulus (Remainder from division) |	`x %% y`    |
+|   %/%    |	Integer Division                  |	`x%/%y`     |
+]
+.panel[.panel-name[Relational]
+
+|Operator |	Name |	Example |
+| :---:    | :--------:              | :---:      |
+|   ==    |	Equal                    |	`x == y` 	|
+|   !=    |	Not equal                |	`x != y` 	|
+|   &gt;     |	Greater than             |	`x &gt; y`   |	
+|   &lt;     | Less than                |  `x &lt; y`   |	
+|   &gt;=    |	Greater than or equal to |	`x &gt;= y`  |
+|   &lt;=    |	Less than or equal to    |	`x &lt;= y`  |
+
+]
+.panel[.panel-name[Logical]
+
+|  Operator  |	Description                                                                   |
+|  :---:    | :--------:              |
+|   &amp;        |	Element-wise Logical AND operator. It returns TRUE if both elements are TRUE  |
+|   &amp;&amp;       | 	Logical AND operator - Returns TRUE if both statements are TRUE               |
+|   &amp;#124;        | 	Elementwise- Logical OR operator. It returns TRUE if one of the statement is TRUE |
+|   &amp;#124;&amp;#124;       | 	Logical OR operator. It returns TRUE if one of the statement is TRUE. |
+|   !        | 	Logical NOT - returns FALSE if statement is TRUE |
+
+
+]
+.panel[.panel-name[Assignment]
+
+``` r
+my_var &lt;- 3
+
+my_var &lt;&lt;- 3
+
+3 -&gt; my_var
+
+3 -&gt;&gt; my_var
+
+assign("my_var", c(10.4, 5.6, 3.1, 6.4, 21.7))
+
+my_var # print my_var
+```
+
+```
+## [1] 10.4  5.6  3.1  6.4 21.7
+```
+
+]
+.panel[.panel-name[Miscellaneous]
+
+| Operator |	Description |	Example |
+|  :---:    | :--------: | :--------: |
+| :    |	Creates a series of numbers in a sequence  |	`x &lt;- 1:10` |
+| %in% |	Find out if an element belongs to a vector |	`x %in% y` |
+| %\*%  |	Matrix Multiplication                      |	`x &lt;- Matrix1 %*% Matrix2` |
+]
+]
+
+
+---
+# R - Decision making
+.panelset[
+.panel[.panel-name[`if`]
+
+.pull-left[
+-   `if` statement
+
+``` r
+x &lt;- 30L
+if(is.integer(x)) {
+   print("X is an Integer")
+}
+```
+
+```
+## [1] "X is an Integer"
+```
+]
+.pull-right[
+![](../images/r_if_statement.jpg)
+]
+]
+.panel[.panel-name[if...else]
+
+.pull-left[
+-   `if...else` statement
+
+``` r
+x &lt;- c("what","is","truth")
+
+if("Truth" %in% x) {
+   print("Truth is found")
+} else {
+   print("Truth is not found")
+}
+```
+
+```
+## [1] "Truth is not found"
+```
+]
+.pull-right[
+![](../images/r_if_else_statement.jpg)
+]
+]
+.panel[.panel-name[switch]
+
+.pull-left[
+-   `switch` statement
+
+``` r
+x &lt;- switch(
+   3,
+   "first",
+   "second",
+   "third",
+   "fourth"
+)
+print(x)
+```
+
+```
+## [1] "third"
+```
+
+]
+.pull-right[
+![](../images/r_switch_statement.jpg)
+]
+]
+]
+
+---
+# R-Loops
+
+.panelset[
+.panel[.panel-name[for Loop]
+
+.pull-left[
+-   `for` Loop
+
+``` r
+v &lt;- LETTERS[1:4]
+for ( i in v) {
+   print(i)
+}
+```
+
+```
+## [1] "A"
+## [1] "B"
+## [1] "C"
+## [1] "D"
+```
+]
+.pull-right[
+![](../images/r_for_loop.jpg)
+]
+]
+
+.panel[.panel-name[while Loop]
+
+.pull-left[
+-   `while` Loop
+
+``` r
+v &lt;- c("Hello","while loop")
+cnt &lt;- 2
+
+while (cnt &lt; 7) {
+   print(v)
+   cnt = cnt + 1
+}
+```
+
+```
+## [1] "Hello"      "while loop"
+## [1] "Hello"      "while loop"
+## [1] "Hello"      "while loop"
+## [1] "Hello"      "while loop"
+## [1] "Hello"      "while loop"
+```
+]
+.pull-right[
+![](../images/swift_while_loop.jpg)
+]
+]
+
+.panel[.panel-name[repeat Loop]
+
+.pull-left[
+-   `repeat` Loop
+
+``` r
+v &lt;- c("Hello","loop")
+cnt &lt;- 2
+
+repeat {
+   print(v)
+   cnt &lt;- cnt+1
+   
+   if(cnt &gt; 5) {
+      break
+   }
+}
+```
+
+```
+## [1] "Hello" "loop" 
+## [1] "Hello" "loop" 
+## [1] "Hello" "loop" 
+## [1] "Hello" "loop"
+```
+]
+.pull-right[
+![](../images/r_break_statement.jpg)
+]
+]
+
+.panel[.panel-name[next statement]
+
+.pull-left[
+-   `next` statement
+
+``` r
+v &lt;- LETTERS[1:6]
+for ( i in v) {
+   
+   if (i == "D") {
+      next
+   }
+   print(i)
+}
+```
+
+```
+## [1] "A"
+## [1] "B"
+## [1] "C"
+## [1] "E"
+## [1] "F"
+```
+]
+.pull-right[
+&lt;!-- ![](images/r_next_statement.jpg){width=25%} --&gt;
+
+&lt;img src="../images/r_next_statement.jpg" width="65%" /&gt;
+]
+]
+
+.panel[.panel-name[break statement]
+
+.pull-left[
+-   `break` statement
+
+``` r
+v &lt;- c("Hello","loop")
+cnt &lt;- 2
+
+repeat {
+   print(v)
+   cnt &lt;- cnt + 1
+	
+   if(cnt &gt; 5) {
+      break
+   }
+}
+```
+
+```
+## [1] "Hello" "loop" 
+## [1] "Hello" "loop" 
+## [1] "Hello" "loop" 
+## [1] "Hello" "loop"
+```
+]
+.pull-right[
+![](../images/r_break_statement.jpg)
+]
+]
+]
+
+
+---
+# R-Functions
+
+``` r
+function_name &lt;- function(arg_1, arg_2, ...) {
+   Function body
+   print()
+}
+```
+
+
+
+__Function Name__ − This is the actual name of the function. It is stored in R environment as an object with this name.
+
+__Arguments__ − An argument is a placeholder. When a function is invoked, you pass a value to the argument. Arguments are optional; that is, a function may contain no arguments. Also arguments can have default values.
+
+__Function Body__ − The function body contains a collection of statements that defines what the function does.
+
+__Return Value__ − The return value of a function is the last expression in the function body to be evaluated.
+
+
+---
+# R packages
+
+`.libPaths()`
+
+`library()`
+
+`install.packages()` ==\&gt; CRAN
+
+`install.packages(path_to_file, repos = NULL, type="source")` ==\&gt; Local
+
+`BiocManager::install("DESeq2")`  ==\&gt; bioconductor
+
+--
+
+![](Day1_R-Basics_files/figure-html/bioconductor-1.png)&lt;!-- --&gt;
+
+---
+class: inverse, center, middle
+
+# Session 2: Data Entry and Data Management
+---
+
+# Data Import and Export
+
+`read.csv`, `write.csv`, `subset()`
+
+`read.xlsx`[**openxlsx**]
+
+
+
+---
+# Data Reshaping
+.panelset[
+.panel[.panel-name[dataframe]
+
+``` r
+# Create vector objects.
+address &lt;- data.frame(
+city = c("Cologne","Frankfurt","Ulm","Mainz"),
+state = c("NRW","Hesse","BW","RLP"),
+stringsAsFactors = FALSE
+)
+
+# Create vector
+zipcode &lt;- c(33602,98104,06161,80294)
+
+# Create another data frame with similar columns
+new.address &lt;- data.frame(
+   city = c("Lowry"),
+   state = c("CO"),
+   zipcode = c("80230"),
+   stringsAsFactors = FALSE
+)
+```
+]
+.panel[.panel-name[cbind()]
+
+
+``` r
+# Combine above vector into one data frame.
+address &lt;- cbind(address,zipcode)
+
+# Print the data frame.
+print(address)
+```
+
+```
+##        city state zipcode
+## 1   Cologne   NRW   33602
+## 2 Frankfurt Hesse   98104
+## 3       Ulm    BW    6161
+## 4     Mainz   RLP   80294
+```
+]
+
+.panel[.panel-name[rbind()]
+
+``` r
+# Combine rows form both the data frames.
+all.addresses &lt;- rbind(address,new.address)
+
+# Print the result.
+print(all.addresses)
+```
+
+```
+##        city state zipcode
+## 1   Cologne   NRW   33602
+## 2 Frankfurt Hesse   98104
+## 3       Ulm    BW    6161
+## 4     Mainz   RLP   80294
+## 5     Lowry    CO   80230
+```
+]
+
+.panel[.panel-name[merge()]
+
+]
+
+.panel[.panel-name[apply()]
+.pull-left[
+
+``` r
+my.matrx &lt;- matrix(c(1:5, 11:15, 21:25), nrow = 5, ncol = 3)
+my.matrx
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]    1   11   21
+## [2,]    2   12   22
+## [3,]    3   13   23
+## [4,]    4   14   24
+## [5,]    5   15   25
+```
+
+``` r
+apply(my.matrx, 1, sum) # rows
+```
+
+```
+## [1] 33 36 39 42 45
+```
+
+``` r
+apply(my.matrx, 2, sum) # columns
+```
+
+```
+## [1]  15  65 115
+```
+]
+.pull-right[
+
+``` r
+lapply()  #  list in list out
+
+sapply()  # "s"implified lapply()
+
+vapply()  # similar to sapply()
+
+tapply()  # calculating summary statistics
+
+mapply()  #  multiple list or vector
+```
+
+]
+
+]
+
+.panel[.panel-name[melt()]
+]
+
+.panel[.panel-name[cast()]
+]
+
+]
+
+---
+# Data Reshaping with `dplyr`
+
+.panelset[
+.panel[.panel-name[filter()]
+
+``` r
+iris |&gt; 
+   filter(Sepal.Length &gt; 5) |&gt;
+   head()
+```
+
+```
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          5.4         3.9          1.7         0.4  setosa
+## 3          5.4         3.7          1.5         0.2  setosa
+## 4          5.8         4.0          1.2         0.2  setosa
+## 5          5.7         4.4          1.5         0.4  setosa
+## 6          5.4         3.9          1.3         0.4  setosa
+```
+
+]
+
+.panel[.panel-name[select()]
+
+``` r
+iris |&gt; 
+   filter(Sepal.Length &gt; 5) |&gt;
+   select(Sepal.Length, Petal.Length, Species) |&gt;
+   head()
+```
+
+```
+##   Sepal.Length Petal.Length Species
+## 1          5.1          1.4  setosa
+## 2          5.4          1.7  setosa
+## 3          5.4          1.5  setosa
+## 4          5.8          1.2  setosa
+## 5          5.7          1.5  setosa
+## 6          5.4          1.3  setosa
+```
+
+]
+
+.panel[.panel-name[mutate()]
+
+
+``` r
+iris |&gt; 
+   filter(Sepal.Length &gt; 5) |&gt;
+   select(Sepal.Length, Petal.Length, Species) |&gt;
+   mutate(SePa.Length=Sepal.Length+Petal.Length) |&gt;
+   head()
+```
+
+```
+##   Sepal.Length Petal.Length Species SePa.Length
+## 1          5.1          1.4  setosa         6.5
+## 2          5.4          1.7  setosa         7.1
+## 3          5.4          1.5  setosa         6.9
+## 4          5.8          1.2  setosa         7.0
+## 5          5.7          1.5  setosa         7.2
+## 6          5.4          1.3  setosa         6.7
+```
+
+]
+
+.panel[.panel-name[arrange()]
+
+``` r
+iris |&gt; 
+   filter(Sepal.Length &gt; 5) |&gt;
+   select(Sepal.Length, Petal.Length, Species) |&gt;
+   mutate(SePa.Length=Sepal.Length+Petal.Length) |&gt;
+   arrange(desc(Sepal.Length)) |&gt;
+   head()
+```
+
+```
+##   Sepal.Length Petal.Length   Species SePa.Length
+## 1          7.9          6.4 virginica        14.3
+## 2          7.7          6.7 virginica        14.4
+## 3          7.7          6.9 virginica        14.6
+## 4          7.7          6.7 virginica        14.4
+## 5          7.7          6.1 virginica        13.8
+## 6          7.6          6.6 virginica        14.2
+```
+
+]
+
+
+.panel[.panel-name[summarise()]
+
+``` r
+iris |&gt; 
+   filter(Sepal.Length &gt; 5) |&gt;
+   select(Sepal.Length, Petal.Length, Species) |&gt;
+   mutate(SePa.Length=Sepal.Length+Petal.Length) |&gt;
+   arrange(desc(Sepal.Length)) |&gt; 
+   summarise(mean = mean(Petal.Length), n = n())
+```
+
+```
+##       mean   n
+## 1 4.315254 118
+```
+
+]
+.panel[.panel-name[group_by()]
+
+``` r
+iris |&gt; 
+   filter(Sepal.Length &gt; 5) |&gt;
+   select(Sepal.Length, Petal.Length, Species) |&gt;
+   mutate(SePa.Length=Sepal.Length+Petal.Length) |&gt;
+   arrange(desc(Sepal.Length)) |&gt; 
+   group_by(Species) |&gt;
+   summarise(mean = mean(Petal.Length), n = n())
+```
+
+```
+## # A tibble: 3 × 3
+##   Species     mean     n
+##   &lt;fct&gt;      &lt;dbl&gt; &lt;int&gt;
+## 1 setosa      1.51    22
+## 2 versicolor  4.32    47
+## 3 virginica   5.57    49
+```
+
+]
+]
+---
+class: inverse, center, middle
+
+# Session 3: Creating Graphics
+---
+# Base Graphics
+.panelset.sideways[
+.panel[.panel-name[data]
+
+``` r
+## Load data
+data("iris")
+
+head(iris)
+```
+
+```
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa
+```
+]
+
+.panel[.panel-name[Scatterplot]
+.pull-left[
+
+``` r
+# Here, we plot Petal.Length 
+# against Sepal.Length
+
+# plot() expects vectors
+# (individual data columns):
+plot(x=iris$Petal.Length, 
+     y=iris$Sepal.Length, 
+     pch=19, # symbol = bullet
+     col=2 # color = red
+     )
+## Default color indices:
+## black=1, red=2, green=3
+
+## Simpler notation:
+with(iris,
+     plot(Sepal.Length,
+          Petal.Length
+     )
+
+## Put a grid:
+grid()
+```
+]
+.pull-right[
+![](Day1_R-Basics_files/figure-html/Scatterplot1-1.png)&lt;!-- --&gt;
+]
+]
+.panel[.panel-name[Identify Points]
+
+.pull-left[
+
+``` r
+plot(iris$Petal.Length,
+     iris$Sepal.Length, pch=19, 
+     col=2)
+
+# click on points of interest
+# quit identify() with right mouse button
+my_points &lt;- 
+  identify(x=iris$Petal.Length,
+           y=iris$Sepal.Length)
+```
+.verytiny-code[
+
+``` r
+iris[my_points,
+     c("Petal.Length",
+       "Sepal.Length")
+     ]
+```
+
+```
+##     Petal.Length Sepal.Length
+## 15           1.2          5.8
+## 16           1.5          5.7
+## 19           1.7          5.7
+## 107          4.5          4.9
+```
+]
+]
+.pull-right[
+&lt;img src="../images/identify2.png" width="120%" /&gt;
+
+]
+]
+
+
+.panel[.panel-name[Annotation -- Text]
+.pull-left[
+
+``` r
+plot(iris$Petal.Length, 
+     iris$Sepal.Length, 
+     pch=19, col=2)
+
+# place text at an (x,y) point:
+text(x=1.2,y=5.8,"outlier!",
+     ## text should start
+     ## exactly at (x,y)
+     cex=2,adj=c(0,0) 
+     )
+```
+]
+.pull-right[
+![](Day1_R-Basics_files/figure-html/Scatterplot3-1.png)&lt;!-- --&gt;
+
+]
+]
+.panel[.panel-name[Annotation -- abline]
+.pull-left[
+.tiny-code[
+
+``` r
+plot(iris$Petal.Length, 
+     iris$Sepal.Length, 
+     pch=19, col=2)
+# draw a line
+# with an intercept a 
+# and a slope b
+abline(a=4.2, b=0.5)
+
+# the true regression line
+abline(lm(Sepal.Length ~ Petal.Length,
+          iris), 
+       lwd=3)
+
+# a horizontal line at y = 6 
+abline(h = 6, col = "blue")
+
+# a vertical line at x = 4 
+abline(v = 4, col = "yellow", 
+       lwd=2, lty=2)
+
+# set or query 
+# graphical parameters:
+?par
+
+# color names:
+colors()
+```
+]
+]
+.pull-right[
+&lt;img src="Day1_R-Basics_files/figure-html/Scatterplot2-1.png" width="110%" /&gt;
+]
+]
+.panel[.panel-name[Line Graph]
+.pull-left[
+
+``` r
+plot(1:length(iris$Sepal.Length), ## x = index! 
+     iris$Sepal.Length,  col=3, 
+     type = 'l')
+```
+]
+.pull-right[
+&lt;img src="Day1_R-Basics_files/figure-html/LineGraph-1.png" width="110%" /&gt;
+
+]
+]
+.panel[.panel-name[Overplotting]
+.pull-left[
+
+``` r
+## Note: 
+## now x is an index (row number)
+plot(1:length(iris$Sepal.Length), 
+     iris$Sepal.Length, col=3, 
+     type = 'l')
+
+## add a scatterplot to the graph
+points(1:length(iris$Sepal.Length),
+       iris$Sepal.Length, 
+       pch=19, col="yellow"
+       )
+
+## add another line graph,
+## now with reversed index order:
+lines(length(iris$Sepal.Length):1,  
+     iris$Sepal.Length, 
+     col="lightblue", 
+     type = 'l')
+```
+]
+.pull-right[
+&lt;img src="Day1_R-Basics_files/figure-html/Overplotted-1.png" width="110%" /&gt;
+
+]
+]
+
+.panel[.panel-name[Histogram]
+.pull-left[
+
+``` r
+range(iris$Petal.Length)
+##[1] 1.0 6.9
+range(iris$Sepal.Length)
+##[1] 4.3 7.9
+
+hist(iris$Petal.Length,
+     # 1=red, 2=green, 3="blue"
+     col=rgb(1, 0, 0, 
+             alpha=0.5),
+     xlim=c(1, 7.9),
+     xlab="Organ Length",
+     main = "Organ Distributions"
+)
+hist(iris$Sepal.Length,add=TRUE,
+     col=rgb(0,0,1,alpha=0.5)
+)
+legend("topright", 
+       legend=c("Petal", "Sepal"), 
+       fill=c(rgb(1, 0, 1, alpha=0.5), 
+              rgb(0, 0, 1, alpha=0.5))
+       )
+```
+
+]
+.pull-right[
+&lt;img src="../images/histogram.png" width="120%" /&gt;
+]
+]
+.panel[.panel-name[Boxplot]
+
+``` r
+# Here, we plot Petal.Length across Species to check the distribution
+boxplot(Petal.Length ~ Species, data = iris, col=c(1:3))
+```
+
+&lt;img src="Day1_R-Basics_files/figure-html/Boxplot-1.png" width="50%" /&gt;
+
+]
+.panel[.panel-name[Bar Chart]
+.pull-left[
+
+``` r
+# Typical barplot to check the mean 
+# of Petal.Length across species
+df &lt;- aggregate(
+        iris[,1:4], 
+        by = list(iris$Species), 
+        FUN = mean)
+
+barplot(Petal.Length ~ Group.1, 
+        data = df,
+        xlab = c('Species'), 
+        ylab = c('Petal Length'), 
+        col=c(1:3)
+        )
+```
+
+
+
+.verytiny-code[
+
+``` r
+df
+```
+
+```
+##      Group.1 Sepal.Length Sepal.Width Petal.Length Petal.Width
+## 1     setosa        5.006       3.428        1.462       0.246
+## 2 versicolor        5.936       2.770        4.260       1.326
+## 3  virginica        6.588       2.974        5.552       2.026
+```
+]
+]
+
+.pull-right[
+&lt;img src="Day1_R-Basics_files/figure-html/BarChart-1.png" width="120%" /&gt;
+]
+]
+.panel[.panel-name[Pie Chart]
+
+``` r
+pie(df$Petal.Length, labels =df$Group.1)
+```
+
+![](Day1_R-Basics_files/figure-html/PieChart-1.png)&lt;!-- --&gt;
+]
+]
+
+---
+
+
+# Introduction to ggplot2
+
+.panelset.sideways[
+
+.panel[.panel-name[What is ggplot2?]
+
+.pull-left[
+
+**ggplot2** is a powerful and flexible **data visualization** package in R based on **The Grammar of Graphics**. It allows users to create complex and customizable plots easily by layering graphical elements.
+
+- **Grammar of Graphics**: ggplot2 builds plots using components like data, aesthetics, geometries (geoms), scales, and more.  
+- **Declarative Syntax**: You specify what you want to plot, and ggplot2 handles the details.
+  
+- **Applications**: ggplot2 is widely used for exploratory data analysis (EDA), scientific visualization, and producing publication-quality figures.
+  
+]
+
+.pull-right[
+
+&lt;div class="image-with-caption"&gt;
+  &lt;img src="../images/layers_ggplot2.png" alt="ggplot2 introduction" width="100%"&gt;
+  &lt;p class="caption"&gt;&lt;font size="3"&gt;&lt;b&gt;source:&lt;/b&gt; https://r.qcbs.ca/workshop03/book-en/grammar-of-graphics-gg-basics.html&lt;/font&gt;&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+]
+
+.panel[.panel-name[ggplot2 Basics]
+
+.pull-left[
+
+1. **Data**: The dataset you want to visualize.  
+2. **Aesthetics (aes)**: Mappings between variables and visual properties like x, y, color, size.  
+3. **Geometries (geoms)**: The type of plot, e.g., points, lines, bars.
+4. **Faceting**: Split data into subplots based on a variable.  
+5. **Scales**: Control the mapping between data and aesthetics.  
+6. **Themes**: Customize the appearance of plots (e.g., fonts, background color). 
+
+]
+
+.pull-right[
+
+&lt;div class="image-with-caption"&gt;
+  &lt;img src="../images/ggplot2_aes.png" alt="Aesthetics in ggplot2" width="100%"&gt;
+  &lt;p class="caption"&gt;&lt;font size="3"&gt;&lt;b&gt;source:&lt;/b&gt; https://www.rforecology.com/post/a-simple-introduction-to-ggplot2/&lt;/font&gt;&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+]
+
+.panel[.panel-name[Common Geometries]
+
+.pull-left[
+
+- **geom_point()**: Scatter plots, used for visualizing relationships between continuous variables.
+- **geom_line()**: Line charts, ideal for trends over time.
+- **geom_bar()**: Bar charts, used for comparing categories.
+- **geom_histogram()**: Visualize the distribution of a single continuous variable.
+- **geom_boxplot()**: Display summary statistics and visualize the spread of data.
+
+]
+
+.pull-right[
+
+&lt;div class="image-with-caption"&gt;
+  &lt;img src="../images/ggplot2_gallery.png" alt="Different ggplot2 geoms" width="100%"&gt;
+  &lt;p class="caption"&gt;&lt;font size="3"&gt;&lt;b&gt;source:&lt;/b&gt; https://r-graph-gallery.com/&lt;/font&gt;&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+]
+
+.panel[.panel-name[Creating a Plot in ggplot2]
+
+.pull-left[
+
+**Steps to Create a Plot**:
+1. **Define ggplot object**: Start by calling `ggplot()` and specifying your dataset.
+2. **Add aesthetics**: Map variables to axes and other properties using `aes()`.
+3. **Add geometries**: Choose the type of plot (e.g., scatter plot with `geom_point()`).
+4. **Customize**: Adjust scales, titles, labels, and themes.
+
+]
+
+.pull-right[
+
+
+``` r
+# Example: Scatter plot of Sepal Length vs Sepal Width
+library(ggplot2)
+
+ggplot(iris,
+       aes(x = Sepal.Length,
+           y = Sepal.Width,
+           color = Species)) +
+  geom_point(size = 3) +
+  ggtitle("Sepal Length vs Sepal Width") +
+  xlab("Sepal Length (cm)") +
+  ylab("Sepal Width (cm)") +
+  theme_minimal()
+```
+
+![](Day1_R-Basics_files/figure-html/unnamed-chunk-52-1.png)&lt;!-- --&gt;
+
+]
+]
+
+.panel[.panel-name[Faceting in ggplot2]
+
+.pull-left[
+
+**Faceting** allows you to split your data into multiple subplots based on one or more categorical variables.
+
+- **facet_wrap()**: Create a separate plot for each level of a categorical variable.
+- **facet_grid()**: Create a grid of plots for combinations of two variables.
+
+]
+
+.pull-right[
+
+
+``` r
+# Example: Faceted scatter plot by Species
+ggplot(iris, 
+       aes(x = Sepal.Length,
+           y = Sepal.Width)) +
+  geom_point(size = 3) +
+  facet_wrap(~ Species) +
+  ggtitle("Faceted Scatter Plot by Species") +
+  theme_minimal()
+```
+
+![](Day1_R-Basics_files/figure-html/unnamed-chunk-53-1.png)&lt;!-- --&gt;
+
+]
+
+]
+
+.panel[.panel-name[Customizing Plots]
+
+.pull-left[
+
+You can customize many aspects of a **ggplot2** plot:
+
+- **Titles and Labels**: Use `ggtitle()`, `xlab()`, and `ylab()` to set titles and axis labels.
+- **Themes**: Control plot appearance using built-in themes like `theme_minimal()`, `theme_bw()`, or create custom themes.
+- **Colors**: Use `scale_color_manual()` or `scale_fill_manual()` to set custom colors.
+- **Legends**: Adjust legend position and appearance with `theme()` settings.
+
+]
+
+.pull-right[
+
+
+``` r
+# Example: Customizing a scatter plot
+ggplot(iris, aes(x = Petal.Length, y = Petal.Width, color = Species)) +
+  geom_point(size = 4) +
+  ggtitle("Petal Length vs Petal Width") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    legend.position = "bottom"
+  )
+```
+
+![](Day1_R-Basics_files/figure-html/unnamed-chunk-54-1.png)&lt;!-- --&gt;
+
+
+]
+
+]
+
+.panel[.panel-name[Saving Your Plot]
+
+.pull-left[
+
+You can save your ggplot2 visualizations as image files with the **ggsave()** function. It supports various file formats like PNG, PDF, JPEG, and more.
+
+- **ggsave("plot.png")**: Save the last plot as a PNG file.
+- You can specify dimensions, resolution (dpi), and file format.
+
+]
+
+.pull-right[
+
+
+``` r
+# Example: Save the current plot to a PNG file
+ggsave("scatter_plot.png",
+       width = 8,
+       height = 6,
+       dpi = 300)
+```
+
+This saves the current ggplot as a high-resolution PNG image with specified dimensions.
+]
+
+]
+
+]
+
+
+
+
+
+---
+# Graphics with `ggplot2`
+
+.panelset.sideways[
+
+.panel[.panel-name[data]
+
+
+``` r
+library(dplyr)
+## Load data
+data("iris")
+head(iris)
+```
+
+```
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa
+```
+
+]
+
+.panel[.panel-name[Scatterplot]
+
+.pull-left[
+
+``` r
+# Scatterplot: Sepal Length vs Sepal Width
+library(ggplot2)
+
+ggplot(iris, aes(x = Sepal.Length,
+                 y = Sepal.Width,
+                 color = Species)) +
+  
+  geom_point(size = 3) +
+  ggtitle("Scatterplot: Sepal Length vs Sepal Width") +
+  
+  xlab("Sepal Length (cm)") +
+  
+  ylab("Sepal Width (cm)") +
+  
+  geom_text(aes(x = 5, y = 3.5, label = "Annotated Text"), color = "red", size = 5) +
+  
+  theme_minimal()
+```
+
+```
+## Warning in geom_text(aes(x = 5, y = 3.5, label = "Annotated Text"), color = "red", : All aesthetics have length 1, but the data has 150 rows.
+## ℹ Please consider using `annotate()` or provide this layer with data containing
+##   a single row.
+```
+
+``` r
+# annotate a specific coordinate on the plot with a custom text
+# geom_text(aes(x = 5, y = 3.5, label = "Annotated Text"), color = "red", size = 5)
+
+# add trend line
+# geom_smooth(method = "lm", se = FALSE)
+
+# add abline
+# geom_abline(intercept = 0, slope = 1, linetype = "dashed")
+
+#?geom_abline
+```
+]
+
+.pull-right[
+![](Day1_R-Basics_files/figure-html/Scatterplot_ggplot2-1.png)&lt;!-- --&gt;
+]
+]
+
+.panel[.panel-name[Line Graph]
+
+
+.pull-left[
+
+``` r
+# Line Graph: Petal Length by Sepal Length
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_line() +
+  ggtitle("Line Graph: Petal Length by Sepal Length") +
+  xlab("Sepal Length (cm)") +
+  ylab("Petal Length (cm)") +
+  theme_minimal()
+```
+]
+
+.pull-right[
+![](Day1_R-Basics_files/figure-html/LineGraph_ggplot2-1.png)&lt;!-- --&gt;
+]
+
+
+]
+
+.panel[.panel-name[Histogram]
+
+.pull-left[
+
+``` r
+# Histogram: Distribution of Sepal Length
+ggplot(iris, 
+       aes(x = Sepal.Length, 
+           fill = Species)) +
+  geom_histogram(binwidth = 0.3, 
+                 position = "dodge") +
+  ggtitle("Histogram: Distribution of Sepal Length") +
+  xlab("Sepal Length (cm)") +
+  ylab("Count") +
+  theme_minimal()
+```
+]
+
+.pull-right[
+![](Day1_R-Basics_files/figure-html/Histogram_ggplot2-1.png)&lt;!-- --&gt;
+]
+
+
+
+
+]
+
+.panel[.panel-name[Density]
+
+.pull-left[
+
+``` r
+# Density Plot: Sepal Length by Species
+ggplot(iris,
+       aes(x = Sepal.Length,
+           fill = Species)) +
+  geom_density(alpha = 0.5) +
+  ggtitle("Density Plot: Sepal Length by Species") +
+  xlab("Sepal Length (cm)") +
+  ylab("Density") +
+  theme_minimal()
+```
+]
+
+.pull-right[
+![](Day1_R-Basics_files/figure-html/Density_ggplot2-1.png)&lt;!-- --&gt;
+]
+]
+
+
+.panel[.panel-name[Boxplot]
+
+
+.pull-left[
+
+``` r
+# Boxplot: Sepal Length by Species
+ggplot(iris,
+       aes(x = Species,
+           y = Sepal.Length,
+           fill = Species)) +
+  geom_boxplot() +
+  ggtitle("Boxplot: Sepal Length by Species") +
+  xlab("Species") +
+  ylab("Sepal Length (cm)") +
+  theme_minimal()
+```
+]
+
+.pull-right[
+![](Day1_R-Basics_files/figure-html/Boxplot_ggplot2-1.png)&lt;!-- --&gt;
+]
+
+
+]
+
+.panel[.panel-name[Bar Chart]
+
+.pull-left[
+
+
+``` r
+# Bar Chart: Species Counts
+ggplot(iris,
+       aes(x = Species,
+           fill = Species)) +
+  geom_bar() +
+  ggtitle("Bar Chart: Species Counts") +
+  xlab("Species") +
+  ylab("Count") +
+  theme_minimal()
+```
+]
+
+.pull-right[
+![](Day1_R-Basics_files/figure-html/BarChart_ggplot2-1.png)&lt;!-- --&gt;
+]
+
+]
+
+.panel[.panel-name[Pie Chart]
+
+.pull-left[
+
+``` r
+# Pie Chart: Species Distribution
+iris_summary &lt;- iris %&gt;%
+  dplyr::count(Species) %&gt;%
+  dplyr::mutate(perc = n / sum(n) * 100)
+
+ggplot(iris_summary, 
+       aes(x = "", 
+           y = perc, 
+           fill = Species)) +
+  geom_bar(stat = "identity", 
+           width = 1) +
+  coord_polar("y", 
+              start = 0) +
+  ggtitle("Pie Chart: Species Distribution") +
+  theme_void()
+```
+]
+
+.pull-right[
+![](Day1_R-Basics_files/figure-html/PieChart_ggplot2-1.png)&lt;!-- --&gt;
+]
+
+
+
+]
+
+]
+
+
+
+
+
+---
+class: inverse, center, middle
+
+# Session 4: Descriptive Statistics
+---
+# What is Descriptive Statistics ?
+
+descriptive statistics (in the broad sense of the term) is a branch of statistics 
+aiming at summarizing, describing and presenting a series of values or a dataset.
+
+Descriptive statistics is often the first step and an important part in any 
+statistical analysis. It allows to check the quality of the data and it helps to
+“understand” the data by having a clear overview of it. 
+
+--
+
+There exists many measures to summarize a dataset. They are broadly divided into
+two types:
+
+- Measures of Central Tendency and
+- Measures of Variability
+
+
+---
+# Measures of Descriptive Statistics
+.panelset.sideways[
+.panel[.panel-name[Min, max, range]
+
+``` r
+min(iris$Sepal.Length)
+```
+
+```
+## [1] 4.3
+```
+
+``` r
+max(iris$Sepal.Length)
+```
+
+```
+## [1] 7.9
+```
+
+``` r
+range(iris$Sepal.Length)
+```
+
+```
+## [1] 4.3 7.9
+```
+
+]
+.panel[.panel-name[mean, median, mode]
+
+``` r
+mean(iris$Sepal.Length)
+```
+
+```
+## [1] 5.843333
+```
+
+``` r
+median(iris$Sepal.Length)
+```
+
+```
+## [1] 5.8
+```
+
+``` r
+table(iris$Sepal.Length) |&gt;
+  sort(decreasing = TRUE)
+```
+
+```
+## 
+##   5 5.1 6.3 5.7 6.7 5.5 5.8 6.4 4.9 5.4 5.6   6 6.1 4.8 6.5 4.6 5.2 6.2 6.9 7.7 
+##  10   9   9   8   8   7   7   7   6   6   6   6   6   5   5   4   4   4   4   4 
+## 4.4 5.9 6.8 7.2 4.7 6.6 4.3 4.5 5.3   7 7.1 7.3 7.4 7.6 7.9 
+##   3   3   3   3   2   2   1   1   1   1   1   1   1   1   1
+```
+]
+.panel[.panel-name[quartiles]
+
+``` r
+quantile(iris$Sepal.Length, 0.25) # first quartile
+```
+
+```
+## 25% 
+## 5.1
+```
+
+``` r
+quantile(iris$Sepal.Length, 0.75) # third quartile
+```
+
+```
+## 75% 
+## 6.4
+```
+
+``` r
+IQR(iris$Sepal.Length) # interquartile range 
+```
+
+```
+## [1] 1.3
+```
+
+]
+.panel[.panel-name[Summary]
+
+``` r
+summary(iris)
+```
+
+```
+##   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+##  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
+##  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+##  Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+##  Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
+##  3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+##  Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+##        Species  
+##  setosa    :50  
+##  versicolor:50  
+##  virginica :50  
+##                 
+##                 
+## 
+```
+]
+.panel[.panel-name[Plot]
+![](https://media.labxchange.org/xblocks/lb-LabXchange-d8863c77-html-1/211626365402575-b88c4d0fdacd5abb4c3dc2de3bc004bb.png)
+]
+.panel[.panel-name[standard deviation]
+.pull-left[
+
+``` r
+# standard deviation
+sd(iris$Sepal.Length) 
+```
+
+```
+## [1] 0.8280661
+```
+
+``` r
+# variance
+var(iris$Sepal.Length) 
+```
+
+```
+## [1] 0.6856935
+```
+]
+.pull-right[
+![](https://i2.wp.com/datascienceplus.com/wp-content/uploads/2015/12/sd_fig11.png)
+]
+]
+
+
+
+
+]
+---
+# Frequency/Cross/Contingency Tables
+
+Cross-tabulation analysis, also known as contingency table analysis, is most often used to analyze categorical (nominal measurement scale) data.
+
+At their core, cross-tabulations are simply data tables that present the results of the entire group of respondents, as well as results from subgroups of survey respondents. With them, you can examine relationships within the data that might not be readily apparent when only looking at total survey responses
+
+--
+
+.pull-left[
+
+``` r
+demo_data &lt;- iris
+
+demo_data$size &lt;- ifelse(demo_data$Sepal.Length &lt; median(demo_data$Sepal.Length),
+  "small", "big"
+)
+table(demo_data$Species, demo_data$size)
+```
+
+```
+##             
+##              big small
+##   setosa       1    49
+##   versicolor  29    21
+##   virginica   47     3
+```
+]
+
+--
+
+.pull-right[
+&lt;img src="Day1_R-Basics_files/figure-html/mosaicPlot-1.png" width="70%" /&gt;
+]
+---
+# Correlation
+A correlation measures the relationship between two variables, that is, how they are linked to each other. In this sense, a correlation allows to know which variables evolve in the same direction, which ones evolve in the opposite direction, and which ones are independent.
+
+--
+
+Correlation is usually computed on two quantitative variables, but it can also be computed on two qualitative ordinal variables.
+
+- Pearson correlation is often used for quantitative continuous variables that have a linear relationship
+
+--
+
+- Spearman correlation (which is actually similar to Pearson but based on the ranked values for each variable rather than on the raw data) is often used to evaluate relationships involving at least one qualitative ordinal variable or two quantitative variables if the link is partially linear
+
+--
+
+
+``` r
+cor(iris$Sepal.Length,iris$Sepal.Width, method = "pearson")
+```
+
+```
+## [1] -0.1175698
+```
+
+``` r
+cor(iris$Sepal.Length,iris$Sepal.Width, method = "spearman")
+```
+
+```
+## [1] -0.1667777
+```
+
+``` r
+# # improved correlation matrix
+# library(corrplot)
+# 
+# corrplot(cor(dat),
+#   method = "number",
+#   type = "upper" # show only upper side
+# )
+```
+
+---
+# Correlation Test
+a correlation coefficient different from `0` in the sample does not mean that the correlation is significantly different from `0` in the population. This needs to be tested with a hypothesis test—and known as the correlation test.
+
+The null and alternative hypothesis for the correlation test are as follows:
+
+- _H_&lt;sub&gt;0&lt;/sub&gt; : ρ = 0 (meaning that there is no linear relationship between the two variables)
+- _H_&lt;sub&gt;1&lt;/sub&gt; : ρ ≠ 0 (meaning that there is a linear relationship between the two variables)
+
+--
+
+
+``` r
+cor.test(iris$Sepal.Length,iris$Sepal.Width)
+```
+
+```
+## 
+## 	Pearson's product-moment correlation
+## 
+## data:  iris$Sepal.Length and iris$Sepal.Width
+## t = -1.4403, df = 148, p-value = 0.1519
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.27269325  0.04351158
+## sample estimates:
+##        cor 
+## -0.1175698
+```
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current%",
+"highlightStyle": "github",
+"highlightLines": true,
+"highlightSpans": true,
+"ratio": "16:9",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
